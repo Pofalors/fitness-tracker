@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gray-50 text-gray-900 antialiased;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300;
+  }
+  
+  .btn-primary {
+    @apply bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-3 rounded-xl 
+           font-medium hover:from-blue-600 hover:to-blue-700 transition-all duration-300
+           shadow-md hover:shadow-lg transform hover:-translate-y-0.5;
+  }
+  
+  .btn-secondary {
+    @apply bg-gray-100 text-gray-700 px-6 py-3 rounded-xl font-medium 
+           hover:bg-gray-200 transition-all duration-300;
+  }
+  
+  .stat-card {
+    @apply bg-gradient-to-br from-white to-gray-50 rounded-2xl p-6 
+           border border-gray-100 shadow-sm;
+  }
+  
+  .gradient-bg {
+    @apply bg-gradient-to-br from-blue-600 via-purple-600 to-pink-500;
+  }
+}
+
+@layer utilities {
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+  
+  .animate-glow {
+    animation: glow 2s ease-in-out infinite;
+  }
+  
+  @keyframes glow {
+    0%, 100% { box-shadow: 0 0 5px rgba(59, 130, 246, 0.5); }
+    50% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.8); }
+  }
+  
+  .glass-effect {
+    @apply bg-white/80 backdrop-blur-lg border border-white/20;
+  }
+}
