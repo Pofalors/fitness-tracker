@@ -11,9 +11,12 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 
-// Log για επιβεβαίωση
+// Πρόσθεσε αυτό για να αποφύγεις τα COOP errors
+auth.settings.appVerificationDisabledForTesting = true; // ΜΟΝΟ για development!
+
 console.log('Firebase initialized with project:', firebaseConfig.projectId);

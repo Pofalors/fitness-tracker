@@ -31,10 +31,15 @@ export const useAuthStore = create<AuthStore>((set) => ({
       console.log('Προσπάθεια σύνδεσης με Google...');
       const result = await signInWithPopup(auth, provider);
       console.log('Επιτυχής σύνδεση:', result.user.email);
+      
+      // Μην κάνεις set user εδώ - το onAuthStateChanged θα το κάνει
+      
     } catch (error: any) {
-      // Αν έχει σχέση με popup, δοκίμασε άλλη μέθοδο
-      if (error.code === 'auth/popup-blocked' || error.code === 'auth/popup-closed-by-user') {
-        console.log('Το popup μπλοκαρίστηκε, δοκίμασε ξανά');
+      if (error.code === 'auth/popup-closed-by-user') {
+        console.log('Το popup έκλεισε από τον χρήστη');
+      } else if (error.code === 'auth/popup-blocked') {
+        console.log('Το popup μπλοκαρίστηκε');
+        alert('Παρακαλώ επέτρεψε τα popup για να συνδεθείς');
       } else {
         console.error('Σφάλμα σύνδεσης:', error);
       }
@@ -45,7 +50,6 @@ export const useAuthStore = create<AuthStore>((set) => ({
     try {
       await signOut(auth);
       console.log('Αποσύνδεση επιτυχής');
-      set({ user: null });
     } catch (error) {
       console.error('Error signing out:', error);
     }
@@ -60,7 +64,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
 
 // Listen to auth state changes
 onAuthStateChanged(auth, (user) => {
-  console.log('Auth state changed:', user?.email || 'Logged out');
+  console.log('🔥 Auth state changed:', user?.email || 'Logged out');
   useAuthStore.getState().setUser(user);
   useAuthStore.getState().setLoading(false);
 });
