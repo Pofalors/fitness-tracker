@@ -23,12 +23,21 @@ export const useAuthStore = create<AuthStore>((set) => ({
   
   signInWithGoogle: async () => {
     const provider = new GoogleAuthProvider();
+    provider.setCustomParameters({
+      prompt: 'select_account'
+    });
+    
     try {
       console.log('Προσπάθεια σύνδεσης με Google...');
       const result = await signInWithPopup(auth, provider);
       console.log('Επιτυχής σύνδεση:', result.user.email);
-    } catch (error) {
-      console.error('Σφάλμα σύνδεσης:', error);
+    } catch (error: any) {
+      // Αν έχει σχέση με popup, δοκίμασε άλλη μέθοδο
+      if (error.code === 'auth/popup-blocked' || error.code === 'auth/popup-closed-by-user') {
+        console.log('Το popup μπλοκαρίστηκε, δοκίμασε ξανά');
+      } else {
+        console.error('Σφάλμα σύνδεσης:', error);
+      }
     }
   },
   
