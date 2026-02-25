@@ -34,15 +34,15 @@ A modern full-stack fitness tracking application built with React, TypeScript, a
 ![Dashboard](screenshots/dashboard.png)
 *The central dashboard with statistics and quick actions*
 
-### Καταγραφή Προπόνησης
+### Recording form
 ![Track Workout](screenshots/track.png)
 *Recording form with stopwatch and training type selection*
 
-### Στατιστικά
+### Statistics
 ![Statistics](screenshots/statistics.png)
 *Progress charts and statistical analysis*
 
-### Προφίλ & Badges
+### Profil & Badges
 ![Profile](screenshots/profile.png)
 *User profile with goals, streaks, and achievements*
 
