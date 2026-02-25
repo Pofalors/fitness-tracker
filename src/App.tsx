@@ -9,6 +9,7 @@ import { History } from './pages/History';
 import { Statistics } from './pages/Statistics';
 import { Profile } from './pages/Profile';
 import { Navigation } from './components/layout/Navigation';
+import { InstallPrompt } from './components/common/InstallPrompt';
 
 // Component για redirect μετά το login
 const AuthRedirect = ({ children }: { children: React.ReactNode }) => {
@@ -63,6 +64,7 @@ function App() {
       <Toaster position="top-center" />
       <BrowserRouter>
         <Navigation />
+        <InstallPrompt />
         <Routes>
           <Route 
             path="/login" 
