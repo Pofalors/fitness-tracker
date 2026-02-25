@@ -4,6 +4,7 @@ import { useWorkoutStore } from '../store/workoutStore';
 import { format } from 'date-fns';
 import { el } from 'date-fns/locale';
 import toast from 'react-hot-toast';
+import { WorkoutSkeleton } from '../components/common/LoadingSkeleton';
 
 export const History = () => {
   const navigate = useNavigate();
@@ -48,13 +49,15 @@ export const History = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="text-4xl mb-4 animate-bounce">💪</div>
-          <div className="text-gray-600">Φόρτωση προπονήσεων...</div>
+    <div className="min-h-screen bg-gray-50">
+      <header className="bg-white shadow-sm">...</header>
+      <main className="max-w-3xl mx-auto px-4 py-8">
+        <div className="space-y-4">
+          {[...Array(3)].map((_, i) => <WorkoutSkeleton key={i} />)}
         </div>
-      </div>
-    );
+      </main>
+    </div>
+  );
   }
 
   return (

@@ -10,6 +10,7 @@ import { Statistics } from './pages/Statistics';
 import { Profile } from './pages/Profile';
 import { Navigation } from './components/layout/Navigation';
 import { InstallPrompt } from './components/common/InstallPrompt';
+import { ErrorBoundary } from './components/common/ErrorBoundary';
 
 // Component για redirect μετά το login
 const AuthRedirect = ({ children }: { children: React.ReactNode }) => {
@@ -61,62 +62,64 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 function App() {
   return (
     <>
-      <Toaster position="top-center" />
-      <BrowserRouter>
-        <Navigation />
-        <InstallPrompt />
-        <Routes>
-          <Route 
-            path="/login" 
-            element={
-              <AuthRedirect>
-                <Login />
-              </AuthRedirect>
-            } 
-          />
-          <Route
-            path="/"
-            element={
-              <ProtectedRoute>
-                <Dashboard />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/track"
-            element={
-              <ProtectedRoute>
-                <TrackWorkout />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/history"
-            element={
-              <ProtectedRoute>
-                <History />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/statistics"
-            element={
-              <ProtectedRoute>
-                <Statistics />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/profile"
-            element={
-              <ProtectedRoute>
-                <Profile />
-              </ProtectedRoute>
-            }
-          />
-          <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
-      </BrowserRouter>
+      <ErrorBoundary>
+        <Toaster position="top-center" />
+        <BrowserRouter>
+          <Navigation />
+          <InstallPrompt />
+          <Routes>
+            <Route 
+              path="/login" 
+              element={
+                <AuthRedirect>
+                  <Login />
+                </AuthRedirect>
+              } 
+            />
+            <Route
+              path="/"
+              element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/track"
+              element={
+                <ProtectedRoute>
+                  <TrackWorkout />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/history"
+              element={
+                <ProtectedRoute>
+                  <History />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/statistics"
+              element={
+                <ProtectedRoute>
+                  <Statistics />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="*" element={<Navigate to="/" />} />
+          </Routes>
+        </BrowserRouter>
+      </ErrorBoundary>
     </>
   );
 }

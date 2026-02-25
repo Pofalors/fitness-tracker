@@ -28,12 +28,18 @@ export const Stopwatch: React.FC<StopwatchProps> = ({ onTimeUpdate }) => {
 
   const toggleTimer = () => {
     setIsActive(!isActive);
+    if (!isActive && navigator.vibrate) {
+      navigator.vibrate(50); // Δόνηση όταν ξεκινάει
+    }
   };
 
   const resetTimer = () => {
     setIsActive(false);
     setSeconds(0);
     onTimeUpdate(0);
+    if (navigator.vibrate) {
+      navigator.vibrate([50, 50, 50]); // 3 μικρές δονήσεις
+    }
   };
 
   const formatTime = (totalSeconds: number) => {

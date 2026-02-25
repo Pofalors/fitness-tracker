@@ -23,6 +23,26 @@ export const InstallPrompt = () => {
     };
   }, []);
 
+  useEffect(() => {
+    // Check if app is already installed (standalone mode)
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+      setShowPrompt(false);
+      return;
+    }
+    
+    // Check if user already dismissed
+    const dismissed = localStorage.getItem('pwa-prompt-dismissed');
+    if (dismissed) {
+      const dismissedTime = parseInt(dismissed);
+      const now = Date.now();
+      // Show again after 7 days
+      if (now - dismissedTime < 7 * 24 * 60 * 60 * 1000) {
+        setShowPrompt(false);
+        return;
+      }
+    }
+  }, []);
+
   const handleInstallClick = async () => {
     if (!deferredPrompt) return;
 
@@ -56,7 +76,10 @@ export const InstallPrompt = () => {
               Εγκατάσταση
             </button>
             <button
-              onClick={() => setShowPrompt(false)}
+              onClick={() => {
+                setShowPrompt(false);
+                localStorage.setItem('pwa-prompt-dismissed', Date.now().toString());
+              }}
               className="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors"
             >
               Αργότερα
