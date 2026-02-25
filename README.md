@@ -26,7 +26,7 @@ A modern full-stack fitness tracking application built with React, TypeScript, a
 
 ## 🚀 Live Demo
 
-[View Live Demo](https://fitness-tracker.vercel.app)
+[View Live Demo](https://fitness-tracker-sepia-one.vercel.app)
 
 ## 📸 Screenshots
 
