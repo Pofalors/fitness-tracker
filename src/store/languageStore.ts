@@ -30,6 +30,15 @@ export const translations = {
     cancel: 'Ακύρωση',
     delete: 'Διαγραφή',
     edit: 'Επεξεργασία',
+    date: 'Ημερομηνία',
+    loading: 'Φόρτωση...',
+    errorTraining: 'Η προπόνηση πρέπει να έχει διάρκεια',
+    success: 'Η προπόνηση καταγράφηκε επιτυχώς!',
+    error: 'Υπήρξε ένα σφάλμα. Προσπάθησε ξανά.',
+
+    // Login
+    loginMessage: 'Παρακολούθησε τις προπονήσεις σου και πέτυχε τους στόχους σου!',
+    free: 'Δωρεάν',
     
     // Navigation
     home: 'Αρχική',
@@ -48,17 +57,54 @@ export const translations = {
     noWorkouts: 'Δεν υπάρχουν ακόμα προπονήσεις',
     startFirst: 'Ξεκίνα καταγράφοντας την πρώτη σου προπόνηση!',
     
-    // Workout types
+    // Track Workout
+    workoutType: 'Τύπος Προπόνησης',
+    distance: 'Απόσταση (km)',
+    distancePlaceholder: 'π.χ. 5.2',
+    notes: 'Σημειώσεις (προαιρετικό)',
+    notesPlaceholder: 'Πως ηταν η προπόνηση σημερα;',
     running: 'Τρέξιμο',
     gym: 'Γυμναστική',
     yoga: 'Γιόγκα',
     walking: 'Περπάτημα',
     other: 'Άλλο',
+    saving: 'Αποθήκευση...',
+    savedTraining: 'Η προπόνηση αποθηκεύτηκε επιτυχώς!',
+
+    // Stopwatch
+    start: 'Έναρξη',
+    stop: 'Σταμάτημα',
+    reset: 'Επαναφορά',
+
+    // History
+    all: 'Όλες',
+    week: 'Τελευταία εβδομάδα',
+    month: 'Τελευταίος μήνας',
+    noTraining: 'Δεν βρέθηκαν προπονήσεις',
+    startTracking: 'Ξεκίνα καταγράφοντας την πρώτη σου προπόνηση!',
+    newTraining: '+ Νέα Προπόνηση',
+    summary: 'Σύνοψη',
+    totalTrainings: 'Σύνολο προπονήσεων',
+    totalTime: 'Συνολικός χρόνος',
+    hours: 'ώρες',
+
+    // Statistics
+    minutes: 'Λεπτά',
+    kilometers: 'Χιλιόμετρα',
+    avgDuration: 'Μ.Ο. διάρκεια',
+    min: 'λ',
+    workoutsPerDay: 'Προπονήσεις ανά ημέρα',
+    workoutTypes: 'Τύποι προπονήσεων',
+    personalRecords: 'Προσωπικά Records',
+    longestDuration: 'Μεγαλύτερη διάρκεια',
+    longestDistance: 'Μεγαλύτερη απόσταση',
+    total: 'Σύνολο',
     
     // Profile
     myProfile: 'Το Προφίλ μου',
     totalWorkouts: 'Σύνολο',
     badges: 'Badges & Επιτεύγματα',
+    badgesMessage: 'Κάνε περισσότερες προπονήσεις για να κερδίσεις badges!',
     weeklyGoals: 'Στόχοι Εβδομάδας',
     workoutsPerWeek: 'Προπονήσεις ανά εβδομάδα',
     minutesPerWeek: 'Λεπτά προπόνησης ανά εβδομάδα',
@@ -82,6 +128,15 @@ export const translations = {
     cancel: 'Cancel',
     delete: 'Delete',
     edit: 'Edit',
+    date: 'Date',
+    loading: 'Loading...',
+    errorTraining: 'The training must have duration',
+    success: 'Workout logged successfully!',
+    error: 'An error occurred. Please try again.',
+
+    // Login
+    loginMessage: 'Track your workouts and achieve your goals!',
+    free: 'Free',
     
     // Navigation
     home: 'Home',
@@ -100,17 +155,54 @@ export const translations = {
     noWorkouts: 'No workouts yet',
     startFirst: 'Start by logging your first workout!',
     
-    // Workout types
+    // Track Workout
+    workoutType: 'Workout Type',
+    distance: 'Distance (km)',
+    distancePlaceholder: 'ex: 5.2',
+    notes: 'Notes (optional)',
+    notesPlaceholder: 'How was your workout today?',
     running: 'Running',
     gym: 'Gym',
     yoga: 'Yoga',
     walking: 'Walking',
     other: 'Other',
+    saving: 'Saving...',
+    savedTraining: 'Workout saved successfully!',
+
+    // Stopwatch
+    start: 'Start',
+    stop: 'Stop',
+    reset: 'Reset',
+
+    // History
+    all: 'All',
+    week: 'Last week',
+    month: 'Last month',
+    noTraining: 'No workouts found',
+    startTracking: 'Start tracking your first workout!',
+    newTraining: '+ New Workout',
+    summary: 'Summary',
+    totalTrainings: 'Total trainings',
+    totalTime: 'Total time',
+    hours: 'hours',
+
+    // Statistics
+    minutes: 'Minutes',
+    kilometers: 'Kilometers',
+    avgDuration: 'Avg duration',
+    min: 'min',
+    workoutsPerDay: 'Workouts per day',
+    workoutTypes: 'Workout types',
+    personalRecords: 'Personal Records',
+    longestDuration: 'Longest duration',
+    longestDistance: 'Longest distance',
+    total: 'Total',
     
     // Profile
     myProfile: 'My Profile',
     totalWorkouts: 'Total',
     badges: 'Badges',
+    badgesMessage: 'Do more workouts to earn badges!',
     weeklyGoals: 'Weekly Goals',
     workoutsPerWeek: 'Workouts per week',
     minutesPerWeek: 'Minutes per week',

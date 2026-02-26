@@ -1,16 +1,18 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useTranslation } from '../../store/languageStore';
 
 export const Navigation = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { t } = useTranslation();
 
   const navItems = [
-    { path: '/', icon: '🏠', label: 'Αρχική' },
-    { path: '/track', icon: '🏃', label: 'Καταγραφή' },
-    { path: '/history', icon: '📅', label: 'Ιστορικό' },
-    { path: '/statistics', icon: '📊', label: 'Στατιστικά' },
-    { path: '/profile', icon: '👤', label: 'Προφίλ' },
+    { path: '/', icon: '🏠', label: t('home') },
+    { path: '/track', icon: '🏃', label: t('track') },
+    { path: '/history', icon: '📅', label: t('history') },
+    { path: '/statistics', icon: '📊', label: t('statistics') },
+    { path: '/profile', icon: '👤', label: t('profile') },
   ];
 
   // Μην εμφανίζεις navigation στο login

@@ -5,17 +5,22 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   PieChart, Pie, Cell
 } from 'recharts';
-import { format, eachDayOfInterval, subDays, startOfWeek, endOfWeek } from 'date-fns';
-import { el } from 'date-fns/locale';
+import { format, eachDayOfInterval, subDays } from 'date-fns';
+import { el, enUS } from 'date-fns/locale';
+import { useTranslation } from '../store/languageStore';
 
 export const Statistics = () => {
   const navigate = useNavigate();
+  const { t, language } = useTranslation();
   const { workouts, fetchUserWorkouts } = useWorkoutStore();
   const [timeRange, setTimeRange] = useState<'week' | 'month' | 'all'>('week');
 
   useEffect(() => {
     fetchUserWorkouts();
   }, []);
+
+  // Επέλεξε locale based on language
+  const locale = language === 'el' ? el : enUS;
 
   // Χρώματα για τα γραφήματα
   const COLORS = ['#3B82F6', '#10B981', '#F59E0B', '#8B5CF6', '#EC4899'];
@@ -37,10 +42,10 @@ export const Statistics = () => {
   }, {});
 
   const pieData = Object.keys(workoutsByType).map(key => ({
-    name: key === 'running' ? 'Τρέξιμο' :
-          key === 'gym' ? 'Γυμναστική' :
-          key === 'yoga' ? 'Γιόγκα' :
-          key === 'walking' ? 'Περπάτημα' : 'Άλλο',
+    name: key === 'running' ? t('running') :
+          key === 'gym' ? t('gym') :
+          key === 'yoga' ? t('yoga') :
+          key === 'walking' ? t('walking') : t('other'),
     value: workoutsByType[key]
   }));
 
@@ -62,9 +67,9 @@ export const Statistics = () => {
       );
       
       return {
-        date: format(day, 'EEE dd', { locale: el }),
-        λεπτά: Math.floor(dayWorkouts.reduce((acc, w) => acc + w.duration, 0) / 60),
-        προπονήσεις: dayWorkouts.length
+        date: format(day, 'EEE dd', { locale }),
+        minutes: Math.floor(dayWorkouts.reduce((acc, w) => acc + w.duration, 0) / 60),
+        workouts: dayWorkouts.length
       };
     });
   };
@@ -72,29 +77,29 @@ export const Statistics = () => {
   const barData = getWorkoutsByDay();
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow-sm">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <header className="bg-white dark:bg-gray-800 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center gap-4">
             <button
               onClick={() => navigate('/')}
-              className="text-gray-600 hover:text-gray-900"
+              className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100"
             >
-              ← Πίσω
+              ← {t('back')}
             </button>
-            <h1 className="text-xl font-bold text-gray-800">Στατιστικά</h1>
+            <h1 className="text-xl font-bold text-gray-800 dark:text-gray-200">{t('statistics')}</h1>
           </div>
         </div>
       </header>
 
       <main className="max-w-6xl mx-auto px-4 py-8">
         {/* Time Range Filter */}
-        <div className="bg-white rounded-xl shadow-sm p-4 mb-6">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4 mb-6">
           <div className="flex gap-2">
             {[
-              { value: 'week', label: 'Τελευταία 7 ημέρες' },
-              { value: 'month', label: 'Τελευταίος μήνας' },
-              { value: 'all', label: 'Όλες' }
+              { value: 'week', label: t('week') },
+              { value: 'month', label: t('month') },
+              { value: 'all', label: t('all') }
             ].map((range) => (
               <button
                 key={range.value}
@@ -102,7 +107,7 @@ export const Statistics = () => {
                 className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                   timeRange === range.value
                     ? 'bg-blue-500 text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
                 }`}
               >
                 {range.label}
@@ -113,52 +118,59 @@ export const Statistics = () => {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-          <div className="bg-white rounded-xl shadow-sm p-6">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
             <div className="text-3xl mb-2">📊</div>
-            <div className="text-sm text-gray-500">Σύνολο</div>
-            <div className="text-2xl font-bold">{totalWorkouts}</div>
+            <div className="text-sm text-gray-500 dark:text-gray-400">{t('total')}</div>
+            <div className="text-2xl font-bold text-gray-800 dark:text-gray-200">{totalWorkouts}</div>
           </div>
           
-          <div className="bg-white rounded-xl shadow-sm p-6">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
             <div className="text-3xl mb-2">⏱️</div>
-            <div className="text-sm text-gray-500">Λεπτά</div>
-            <div className="text-2xl font-bold">{totalMinutes}</div>
+            <div className="text-sm text-gray-500 dark:text-gray-400">{t('minutes')}</div>
+            <div className="text-2xl font-bold text-gray-800 dark:text-gray-200">{totalMinutes}</div>
           </div>
           
-          <div className="bg-white rounded-xl shadow-sm p-6">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
             <div className="text-3xl mb-2">📏</div>
-            <div className="text-sm text-gray-500">Χιλιόμετρα</div>
-            <div className="text-2xl font-bold">{totalDistance.toFixed(1)}</div>
+            <div className="text-sm text-gray-500 dark:text-gray-400">{t('kilometers')}</div>
+            <div className="text-2xl font-bold text-gray-800 dark:text-gray-200">{totalDistance.toFixed(1)}</div>
           </div>
           
-          <div className="bg-white rounded-xl shadow-sm p-6">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
             <div className="text-3xl mb-2">⏲️</div>
-            <div className="text-sm text-gray-500">Μ.Ο. διάρκεια</div>
-            <div className="text-2xl font-bold">{avgDuration}λ</div>
+            <div className="text-sm text-gray-500 dark:text-gray-400">{t('avgDuration')}</div>
+            <div className="text-2xl font-bold text-gray-800 dark:text-gray-200">{avgDuration}{t('min')}</div>
           </div>
         </div>
 
         {/* Charts */}
         <div className="grid md:grid-cols-2 gap-6">
           {/* Bar Chart */}
-          <div className="bg-white rounded-xl shadow-sm p-6">
-            <h3 className="font-semibold text-gray-800 mb-4">Προπονήσεις ανά ημέρα</h3>
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
+            <h3 className="font-semibold text-gray-800 dark:text-gray-200 mb-4">{t('workoutsPerDay')}</h3>
             <div className="h-64">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={barData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="date" />
-                  <YAxis />
-                  <Tooltip />
-                  <Bar dataKey="λεπτά" fill="#3B82F6" />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+                  <XAxis dataKey="date" stroke="#6B7280" />
+                  <YAxis stroke="#6B7280" />
+                  <Tooltip 
+                    contentStyle={{ 
+                      backgroundColor: '#1F2937', 
+                      border: 'none',
+                      borderRadius: '0.5rem',
+                      color: '#F3F4F6'
+                    }}
+                  />
+                  <Bar dataKey="minutes" fill="#3B82F6" />
                 </BarChart>
               </ResponsiveContainer>
             </div>
           </div>
 
           {/* Pie Chart */}
-          <div className="bg-white rounded-xl shadow-sm p-6">
-            <h3 className="font-semibold text-gray-800 mb-4">Τύποι προπονήσεων</h3>
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
+            <h3 className="font-semibold text-gray-800 dark:text-gray-200 mb-4">{t('workoutTypes')}</h3>
             <div className="h-64">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
@@ -176,7 +188,14 @@ export const Statistics = () => {
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                   </Pie>
-                  <Tooltip />
+                  <Tooltip 
+                    contentStyle={{ 
+                      backgroundColor: '#1F2937', 
+                      border: 'none',
+                      borderRadius: '0.5rem',
+                      color: '#F3F4F6'
+                    }}
+                  />
                 </PieChart>
               </ResponsiveContainer>
             </div>
@@ -186,15 +205,15 @@ export const Statistics = () => {
         {/* Personal Records */}
         {workouts.length > 0 && (
           <div className="mt-8 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-xl shadow-sm p-6 text-white">
-            <h3 className="font-bold text-lg mb-4">🏆 Προσωπικά Records</h3>
+            <h3 className="font-bold text-lg mb-4">🏆 {t('personalRecords')}</h3>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <p className="text-sm opacity-90">Μεγαλύτερη διάρκεια</p>
-                <p className="text-2xl font-bold">{Math.floor(longestWorkout / 60)} λεπτά</p>
+                <p className="text-sm opacity-90">{t('longestDuration')}</p>
+                <p className="text-2xl font-bold">{Math.floor(longestWorkout / 60)} {t('minutes')}</p>
               </div>
               {longestDistance > 0 && (
                 <div>
-                  <p className="text-sm opacity-90">Μεγαλύτερη απόσταση</p>
+                  <p className="text-sm opacity-90">{t('longestDistance')}</p>
                   <p className="text-2xl font-bold">{longestDistance.toFixed(1)} km</p>
                 </div>
               )}

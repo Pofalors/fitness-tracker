@@ -31,7 +31,7 @@ const AuthRedirect = ({ children }: { children: React.ReactNode }) => {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="text-4xl mb-4 animate-bounce">💪</div>
-          <div className="text-gray-600">Φόρτωση...</div>
+          <div className="text-gray-600">Loading...</div>
         </div>
       </div>
     );
@@ -48,7 +48,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="text-4xl mb-4 animate-bounce">💪</div>
-          <div className="text-gray-600">Φόρτωση...</div>
+          <div className="text-gray-600">Loading...</div>
         </div>
       </div>
     );

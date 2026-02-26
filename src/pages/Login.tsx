@@ -15,7 +15,7 @@ export const Login = () => {
             {t('appName')}
           </h1>
           <p className="text-gray-600">
-            Παρακολούθησε τις προπονήσεις σου και πέτυχε τους στόχους σου!
+            {t('loginMessage')}
           </p>
         </div>
 
@@ -59,7 +59,7 @@ export const Login = () => {
         </button>
 
         <p className="text-xs text-center text-gray-500 mt-6">
-          Δωρεάν • PWA Ready • Cloud Sync
+          {t('free')} • PWA Ready • Cloud Sync
         </p>
       </div>
     </div>

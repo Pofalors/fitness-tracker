@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from '../../store/languageStore';
 
 interface StopwatchProps {
   onTimeUpdate: (seconds: number) => void;
@@ -7,6 +8,7 @@ interface StopwatchProps {
 export const Stopwatch: React.FC<StopwatchProps> = ({ onTimeUpdate }) => {
   const [seconds, setSeconds] = useState(0);
   const [isActive, setIsActive] = useState(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
     let interval: ReturnType<typeof setInterval> | undefined;
@@ -29,7 +31,7 @@ export const Stopwatch: React.FC<StopwatchProps> = ({ onTimeUpdate }) => {
   const toggleTimer = () => {
     setIsActive(!isActive);
     if (!isActive && navigator.vibrate) {
-      navigator.vibrate(50); // Δόνηση όταν ξεκινάει
+      navigator.vibrate(50);
     }
   };
 
@@ -38,7 +40,7 @@ export const Stopwatch: React.FC<StopwatchProps> = ({ onTimeUpdate }) => {
     setSeconds(0);
     onTimeUpdate(0);
     if (navigator.vibrate) {
-      navigator.vibrate([50, 50, 50]); // 3 μικρές δονήσεις
+      navigator.vibrate([50, 50, 50]);
     }
   };
 
@@ -68,14 +70,14 @@ export const Stopwatch: React.FC<StopwatchProps> = ({ onTimeUpdate }) => {
                 : 'bg-green-500 hover:bg-green-600 text-white'
             }`}
           >
-            {isActive ? 'Παύση' : 'Έναρξη'}
+            {isActive ? t('stop') : t('start')}
           </button>
           
           <button
             onClick={resetTimer}
             className="px-6 py-3 bg-gray-500 hover:bg-gray-600 text-white rounded-lg font-medium transition-colors"
           >
-            Επαναφορά
+            {t('reset')}
           </button>
         </div>
       </div>

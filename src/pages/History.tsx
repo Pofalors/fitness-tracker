@@ -5,11 +5,13 @@ import { format } from 'date-fns';
 import { el } from 'date-fns/locale';
 import toast from 'react-hot-toast';
 import { WorkoutSkeleton } from '../components/common/LoadingSkeleton';
+import { useTranslation } from '../store/languageStore';
 
 export const History = () => {
   const navigate = useNavigate();
   const { workouts, fetchUserWorkouts, loading } = useWorkoutStore();
   const [filter, setFilter] = useState<'all' | 'week' | 'month'>('all');
+  const { t } = useTranslation();
 
   useEffect(() => {
     fetchUserWorkouts();
@@ -69,9 +71,9 @@ export const History = () => {
               onClick={() => navigate('/')}
               className="text-gray-600 hover:text-gray-900"
             >
-              ← Πίσω
+              ← {t('back')}
             </button>
-            <h1 className="text-xl font-bold text-gray-800">Ιστορικό Προπονήσεων</h1>
+            <h1 className="text-xl font-bold text-gray-800">{t('history')}</h1>
           </div>
         </div>
       </header>
@@ -81,9 +83,9 @@ export const History = () => {
         <div className="bg-white rounded-xl shadow-sm p-4 mb-6">
           <div className="flex gap-2">
             {[
-              { value: 'all', label: 'Όλες' },
-              { value: 'week', label: 'Τελευταία εβδομάδα' },
-              { value: 'month', label: 'Τελευταίο μήνα' }
+              { value: 'all', label: t('all') },
+              { value: 'week', label: t('week') },
+              { value: 'month', label: t('month') }
             ].map((f) => (
               <button
                 key={f.value}
@@ -105,13 +107,13 @@ export const History = () => {
           {filteredWorkouts().length === 0 ? (
             <div className="bg-white rounded-xl shadow-sm p-12 text-center text-gray-500">
               <div className="text-6xl mb-4">📝</div>
-              <p className="text-lg mb-2">Δεν υπάρχουν προπονήσεις</p>
-              <p className="text-sm mb-6">Ξεκίνα καταγράφοντας την πρώτη σου προπόνηση!</p>
+              <p className="text-lg mb-2">{t('noTraining')}</p>
+              <p className="text-sm mb-6">{t('startTracking')}</p>
               <button
                 onClick={() => navigate('/track')}
                 className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors"
               >
-                + Νέα Προπόνηση
+                {t('newTraining')}
               </button>
             </div>
           ) : (
@@ -153,16 +155,16 @@ export const History = () => {
         {/* Summary Stats */}
         {filteredWorkouts().length > 0 && (
           <div className="mt-8 bg-blue-50 rounded-xl p-6">
-            <h3 className="font-semibold text-gray-800 mb-3">Σύνοψη</h3>
+            <h3 className="font-semibold text-gray-800 mb-3">{t('summary')}</h3>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <p className="text-sm text-gray-600">Σύνολο προπονήσεων</p>
+                <p className="text-sm text-gray-600">{t('totalTrainings')}</p>
                 <p className="text-2xl font-bold text-gray-800">{filteredWorkouts().length}</p>
               </div>
               <div>
-                <p className="text-sm text-gray-600">Συνολικός χρόνος</p>
+                <p className="text-sm text-gray-600">{t('totalTime')}</p>
                 <p className="text-2xl font-bold text-gray-800">
-                  {Math.floor(filteredWorkouts().reduce((acc, w) => acc + w.duration, 0) / 3600)} ώρες
+                  {Math.floor(filteredWorkouts().reduce((acc, w) => acc + w.duration, 0) / 3600)} {t('hours')}
                 </p>
               </div>
             </div>

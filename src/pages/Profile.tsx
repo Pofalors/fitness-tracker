@@ -288,7 +288,7 @@ export const Profile = () => {
           
           {badges.length === 0 ? (
             <p className="text-gray-500 text-center py-4">
-              Κάνε περισσότερες προπονήσεις για να κερδίσεις badges!
+              {t('badgesMessage')}
             </p>
           ) : (
             <div className="grid grid-cols-2 gap-3">

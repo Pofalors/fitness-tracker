@@ -4,10 +4,12 @@ import { useWorkoutStore } from '../store/workoutStore';
 import { Stopwatch } from '../components/tracking/Stopwatch';
 import type { WorkoutType } from '../types/workout.types';
 import toast from 'react-hot-toast';
+import { useTranslation } from '../store/languageStore';
 
 export const TrackWorkout = () => {
   const navigate = useNavigate();
   const { addWorkout, loading } = useWorkoutStore();
+  const { t } = useTranslation();
   
   const [formData, setFormData] = useState({
     type: 'running' as WorkoutType,
@@ -21,7 +23,7 @@ export const TrackWorkout = () => {
     e.preventDefault();
     
     if (formData.duration === 0) {
-      toast.error('Η προπόνηση πρέπει να έχει διάρκεια');
+      toast.error(t('errorTraining'));
       return;
     }
 
@@ -32,19 +34,19 @@ export const TrackWorkout = () => {
         distance: formData.distance ? parseFloat(formData.distance) : undefined
       });
       
-      toast.success('Η προπόνηση καταγράφηκε επιτυχώς!');
+      toast.success(t('success'));
       navigate('/');
     } catch (error) {
-      toast.error('Υπήρξε ένα σφάλμα. Προσπάθησε ξανά.');
+      toast.error(t('error'));
     }
   };
 
   const workoutTypes: { value: WorkoutType; label: string; icon: string }[] = [
-    { value: 'running', label: 'Τρέξιμο', icon: '🏃' },
-    { value: 'gym', label: 'Γυμναστική', icon: '💪' },
-    { value: 'yoga', label: 'Γιόγκα', icon: '🧘' },
-    { value: 'walking', label: 'Περπάτημα', icon: '🚶' },
-    { value: 'other', label: 'Άλλο', icon: '📝' }
+    { value: 'running', label: t('running'), icon: '🏃' },
+    { value: 'gym', label: t('gym'), icon: '💪' },
+    { value: 'yoga', label: t('yoga'), icon: '🧘' },
+    { value: 'walking', label: t('walking'), icon: '🚶' },
+    { value: 'other', label: t('other'), icon: '📝' }
   ];
 
   return (
@@ -56,9 +58,9 @@ export const TrackWorkout = () => {
               onClick={() => navigate('/')}
               className="text-gray-600 hover:text-gray-900"
             >
-              ← Πίσω
+              ← {t('back')}
             </button>
-            <h1 className="text-xl font-bold text-gray-800">Καταγραφή Προπόνησης</h1>
+            <h1 className="text-xl font-bold text-gray-800">{t('track')}</h1>
           </div>
         </div>
       </header>
@@ -71,7 +73,7 @@ export const TrackWorkout = () => {
           {/* Workout Type */}
           <div className="bg-white rounded-xl shadow-sm p-6">
             <label className="block text-sm font-medium text-gray-700 mb-3">
-              Τύπος Προπόνησης
+              {t('workoutType')}
             </label>
             <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
               {workoutTypes.map((type) => (
@@ -95,7 +97,7 @@ export const TrackWorkout = () => {
           {/* Date */}
           <div className="bg-white rounded-xl shadow-sm p-6">
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Ημερομηνία
+              {t('date')}
             </label>
             <input
               type="date"
@@ -109,7 +111,7 @@ export const TrackWorkout = () => {
           {(formData.type === 'running' || formData.type === 'walking') && (
             <div className="bg-white rounded-xl shadow-sm p-6">
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Απόσταση (km)
+                {t('distance')}
               </label>
               <input
                 type="number"
@@ -118,7 +120,7 @@ export const TrackWorkout = () => {
                 value={formData.distance}
                 onChange={(e) => setFormData({ ...formData, distance: e.target.value })}
                 className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="π.χ. 5.2"
+                placeholder={t('distancePlaceholder')}
               />
             </div>
           )}
@@ -126,14 +128,14 @@ export const TrackWorkout = () => {
           {/* Notes */}
           <div className="bg-white rounded-xl shadow-sm p-6">
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Σημειώσεις (προαιρετικά)
+              {t('notes')}
             </label>
             <textarea
               value={formData.notes}
               onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
               rows={3}
               className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="Πώς ήταν η προπόνηση σήμερα;"
+              placeholder={t('notesPlaceholder')}
             />
           </div>
 
@@ -143,7 +145,7 @@ export const TrackWorkout = () => {
             disabled={loading}
             className="w-full bg-blue-600 text-white py-4 rounded-xl font-medium text-lg hover:bg-blue-700 transition-colors disabled:bg-blue-300"
           >
-            {loading ? 'Γίνεται αποθήκευση...' : 'Αποθήκευση Προπόνησης'}
+            {loading ? t('saving') : t('savedTraining')}
           </button>
         </form>
       </main>
