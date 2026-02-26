@@ -8,10 +8,12 @@ import {
 import { format, eachDayOfInterval, subDays } from 'date-fns';
 import { el, enUS } from 'date-fns/locale';
 import { useTranslation } from '../store/languageStore';
+import { useTheme } from '../store/themeStore';
 
 export const Statistics = () => {
   const navigate = useNavigate();
   const { t, language } = useTranslation();
+  const { theme } = useTheme();
   const { workouts, fetchUserWorkouts } = useWorkoutStore();
   const [timeRange, setTimeRange] = useState<'week' | 'month' | 'all'>('week');
 
@@ -24,6 +26,11 @@ export const Statistics = () => {
 
   // Χρώματα για τα γραφήματα
   const COLORS = ['#3B82F6', '#10B981', '#F59E0B', '#8B5CF6', '#EC4899'];
+
+  const gridColor = theme === 'dark' ? '#374151' : '#E5E7EB';
+  const textColor = theme === 'dark' ? '#9CA3AF' : '#6B7280';
+  const tooltipBg = theme === 'dark' ? '#1F2937' : '#FFFFFF';
+  const tooltipText = theme === 'dark' ? '#F3F4F6' : '#1F2937';
 
   // Υπολογισμός στατιστικών
   const totalWorkouts = workouts.length;
@@ -77,13 +84,13 @@ export const Statistics = () => {
   const barData = getWorkoutsByDay();
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <header className="bg-white dark:bg-gray-800 shadow-sm">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+      <header className="bg-white dark:bg-gray-800 shadow-sm transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center gap-4">
             <button
               onClick={() => navigate('/')}
-              className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100"
+              className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
             >
               ← {t('back')}
             </button>
@@ -94,7 +101,7 @@ export const Statistics = () => {
 
       <main className="max-w-6xl mx-auto px-4 py-8">
         {/* Time Range Filter */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4 mb-6">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4 mb-6 transition-colors duration-300">
           <div className="flex gap-2">
             {[
               { value: 'week', label: t('week') },
@@ -146,20 +153,21 @@ export const Statistics = () => {
         {/* Charts */}
         <div className="grid md:grid-cols-2 gap-6">
           {/* Bar Chart */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 transition-colors duration-300">
             <h3 className="font-semibold text-gray-800 dark:text-gray-200 mb-4">{t('workoutsPerDay')}</h3>
             <div className="h-64">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={barData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                  <XAxis dataKey="date" stroke="#6B7280" />
-                  <YAxis stroke="#6B7280" />
+                  <CartesianGrid strokeDasharray="3 3" stroke={gridColor} />
+                  <XAxis dataKey="date" stroke={textColor} />
+                  <YAxis stroke={textColor} />
                   <Tooltip 
                     contentStyle={{ 
-                      backgroundColor: '#1F2937', 
+                      backgroundColor: tooltipBg,
                       border: 'none',
                       borderRadius: '0.5rem',
-                      color: '#F3F4F6'
+                      color: tooltipText,
+                      boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)'
                     }}
                   />
                   <Bar dataKey="minutes" fill="#3B82F6" />
@@ -169,7 +177,7 @@ export const Statistics = () => {
           </div>
 
           {/* Pie Chart */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 transition-colors duration-300">
             <h3 className="font-semibold text-gray-800 dark:text-gray-200 mb-4">{t('workoutTypes')}</h3>
             <div className="h-64">
               <ResponsiveContainer width="100%" height="100%">
@@ -190,10 +198,11 @@ export const Statistics = () => {
                   </Pie>
                   <Tooltip 
                     contentStyle={{ 
-                      backgroundColor: '#1F2937', 
+                      backgroundColor: tooltipBg,
                       border: 'none',
                       borderRadius: '0.5rem',
-                      color: '#F3F4F6'
+                      color: tooltipText,
+                      boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)'
                     }}
                   />
                 </PieChart>
