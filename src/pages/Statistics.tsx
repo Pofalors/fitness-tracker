@@ -77,17 +77,17 @@ export const Statistics = () => {
           <div className="flex items-center gap-4">
             <button
               onClick={() => navigate('/')}
-              className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100"
+              className="text-gray-600  hover:text-gray-900 "
             >
               ← {t('back')}
             </button>
-            <h1 className="text-xl font-bold text-gray-800 dark:text-gray-200">{t('statistics')}</h1>
+            <h1 className="text-xl font-bold text-gray-800 ">{t('statistics')}</h1>
           </div>
         </div>
       </header>
 
       <main className="max-w-6xl mx-auto px-4 py-8">
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4 mb-6">
+        <div className="bg-white  rounded-xl shadow-sm p-4 mb-6">
           <div className="flex gap-2">
             {[
               { value: 'week', label: t('week') },
@@ -100,7 +100,7 @@ export const Statistics = () => {
                 className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                   timeRange === range.value
                     ? 'bg-blue-500 text-white'
-                    : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                    : 'bg-gray-100  text-gray-700  hover:bg-gray-200 '
                 }`}
               >
                 {range.label}
@@ -111,36 +111,36 @@ export const Statistics = () => {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
+          <div className="bg-white  rounded-xl shadow-sm p-6">
             <div className="text-3xl mb-2">📊</div>
-            <div className="text-sm text-gray-500 dark:text-gray-400">{t('total')}</div>
-            <div className="text-2xl font-bold text-gray-800 dark:text-gray-200">{totalWorkouts}</div>
+            <div className="text-sm text-gray-500 ">{t('total')}</div>
+            <div className="text-2xl font-bold text-gray-800 ">{totalWorkouts}</div>
           </div>
           
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
+          <div className="bg-white  rounded-xl shadow-sm p-6">
             <div className="text-3xl mb-2">⏱️</div>
-            <div className="text-sm text-gray-500 dark:text-gray-400">{t('minutes')}</div>
-            <div className="text-2xl font-bold text-gray-800 dark:text-gray-200">{totalMinutes}</div>
+            <div className="text-sm text-gray-500 ">{t('minutes')}</div>
+            <div className="text-2xl font-bold text-gray-800 ">{totalMinutes}</div>
           </div>
           
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
+          <div className="bg-white  rounded-xl shadow-sm p-6">
             <div className="text-3xl mb-2">📏</div>
-            <div className="text-sm text-gray-500 dark:text-gray-400">{t('kilometers')}</div>
-            <div className="text-2xl font-bold text-gray-800 dark:text-gray-200">{totalDistance.toFixed(1)}</div>
+            <div className="text-sm text-gray-500 ">{t('kilometers')}</div>
+            <div className="text-2xl font-bold text-gray-800 ">{totalDistance.toFixed(1)}</div>
           </div>
           
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
+          <div className="bg-white  rounded-xl shadow-sm p-6">
             <div className="text-3xl mb-2">⏲️</div>
-            <div className="text-sm text-gray-500 dark:text-gray-400">{t('avgDuration')}</div>
-            <div className="text-2xl font-bold text-gray-800 dark:text-gray-200">{avgDuration}{t('min')}</div>
+            <div className="text-sm text-gray-500 ">{t('avgDuration')}</div>
+            <div className="text-2xl font-bold text-gray-800 ">{avgDuration}{t('min')}</div>
           </div>
         </div>
 
         {/* Charts */}
         <div className="grid md:grid-cols-2 gap-6">
           {/* Bar Chart */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
-            <h3 className="font-semibold text-gray-800 dark:text-gray-200 mb-4">{t('workoutsPerDay')}</h3>
+          <div className="bg-white  rounded-xl shadow-sm p-6">
+            <h3 className="font-semibold text-gray-800  mb-4">{t('workoutsPerDay')}</h3>
             <div className="h-64">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={barData}>
@@ -162,8 +162,8 @@ export const Statistics = () => {
           </div>
 
           {/* Pie Chart */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
-            <h3 className="font-semibold text-gray-800 dark:text-gray-200 mb-4">{t('workoutTypes')}</h3>
+          <div className="bg-white  rounded-xl shadow-sm p-6">
+            <h3 className="font-semibold text-gray-800  mb-4">{t('workoutTypes')}</h3>
             <div className="h-64">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>

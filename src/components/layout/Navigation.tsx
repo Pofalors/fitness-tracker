@@ -20,7 +20,7 @@ export const Navigation = () => {
   if (location.pathname === '/login') return null;
 
   return (
-    <nav className={`fixed bottom-0 left-0 right-0 bg-white/90 dark:bg-gray-800/90 backdrop-blur-lg border-t border-gray-200 dark:border-gray-700 md:top-0 md:bottom-auto md:border-t-0 md:border-b ${theme === 'dark' ? 'dark' : ''}`}>
+    <nav className={`fixed bottom-0 left-0 right-0 bg-white  backdrop-blur-lg border-t border-gray-200  md:top-0 md:bottom-auto md:border-t-0 md:border-b`}>
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-around items-center h-16 md:h-20">
           {navItems.map((item) => (

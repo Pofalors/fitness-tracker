@@ -74,7 +74,7 @@ export const Dashboard = () => {
               </div>
               <div className="text-5xl">📊</div>
             </div>
-            <div className="mt-4 h-2 bg-gray-100 rounded-full overflow-hidden">
+            <div className="mt-4 h-2 bg-gray-50 rounded-full overflow-hidden">
               <div className="h-full w-3/4 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full"></div>
             </div>
           </div>
@@ -102,7 +102,7 @@ export const Dashboard = () => {
               </div>
               <div className="text-5xl">🎯</div>
             </div>
-            <div className="mt-4 h-2 bg-gray-100 rounded-full overflow-hidden">
+            <div className="mt-4 h-2 bg-gray-50 rounded-full overflow-hidden">
               <div className="h-full w-0 bg-gradient-to-r from-green-500 to-green-600 rounded-full"></div>
             </div>
           </div>

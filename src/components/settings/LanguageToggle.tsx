@@ -5,13 +5,13 @@ export const LanguageToggle = () => {
   const { language, setLanguage } = useLanguageStore();
 
   return (
-    <div className="flex items-center gap-2 p-2 bg-gray-100 dark:bg-gray-700 rounded-xl">
+    <div className="flex items-center gap-2 p-2 bg-gray-100  rounded-xl">
       <button
         onClick={() => setLanguage('el')}
         className={`px-3 py-1 rounded-lg font-medium transition-all ${
           language === 'el' 
-            ? 'bg-white dark:bg-gray-600 shadow-md text-blue-600' 
-            : 'hover:bg-gray-200 dark:hover:bg-gray-600'
+            ? 'bg-white  shadow-md text-blue-600' 
+            : 'hover:bg-gray-200 '
         }`}
       >
         🇬🇷 ΕΛ
@@ -21,8 +21,8 @@ export const LanguageToggle = () => {
         onClick={() => setLanguage('en')}
         className={`px-3 py-1 rounded-lg font-medium transition-all ${
           language === 'en' 
-            ? 'bg-white dark:bg-gray-600 shadow-md text-blue-600' 
-            : 'hover:bg-gray-200 dark:hover:bg-gray-600'
+            ? 'bg-white  shadow-md text-blue-600' 
+            : 'hover:bg-gray-200 '
         }`}
       >
         🇬🇧 EN

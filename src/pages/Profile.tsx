@@ -307,23 +307,23 @@ export const Profile = () => {
         </div>
 
         {/* Settings */}
-        <div className="mt-6 bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
-          <h3 className="font-semibold text-gray-800 dark:text-gray-200 mb-4">
+        <div className="mt-6 bg-white  rounded-xl shadow-sm p-6">
+          <h3 className="font-semibold text-gray-800  mb-4">
             ⚙️ {t('settings')}
           </h3>
           
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <span className="text-gray-700 dark:text-gray-300">{t('theme')}</span>
+              <span className="text-gray-700 ">{t('theme')}</span>
               <ThemeToggle />
             </div>
             
             <div className="flex items-center justify-between">
-              <span className="text-gray-700 dark:text-gray-300">{t('language')}</span>
+              <span className="text-gray-700 ">{t('language')}</span>
               <LanguageToggle />
             </div>
             
-            <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
+            <div className="pt-4 border-t border-gray-200 ">
               <button
                 onClick={() => {
                   if (window.confirm(t('confirmLogout'))) {

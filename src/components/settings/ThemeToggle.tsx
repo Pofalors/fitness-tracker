@@ -20,13 +20,13 @@ export const ThemeToggle = () => {
   }, [theme, applyTheme]);
 
   return (
-    <div className="flex items-center gap-2 p-2 bg-gray-100 dark:bg-gray-700 rounded-xl">
+    <div className="flex items-center gap-2 p-2 bg-gray-100  rounded-xl">
       <button
         onClick={() => setTheme('light')}
         className={`p-2 rounded-lg transition-all ${
           theme === 'light' 
-            ? 'bg-white dark:bg-gray-600 shadow-md' 
-            : 'hover:bg-gray-200 dark:hover:bg-gray-600'
+            ? 'bg-white  shadow-md' 
+            : 'hover:bg-gray-200 '
         }`}
         title="Φωτεινό"
       >
@@ -37,8 +37,8 @@ export const ThemeToggle = () => {
         onClick={() => setTheme('dark')}
         className={`p-2 rounded-lg transition-all ${
           theme === 'dark' 
-            ? 'bg-white dark:bg-gray-600 shadow-md' 
-            : 'hover:bg-gray-200 dark:hover:bg-gray-600'
+            ? 'bg-white  shadow-md' 
+            : 'hover:bg-gray-200 '
         }`}
         title="Σκοτεινό"
       >
@@ -49,8 +49,8 @@ export const ThemeToggle = () => {
         onClick={() => setTheme('system')}
         className={`p-2 rounded-lg transition-all ${
           theme === 'system' 
-            ? 'bg-white dark:bg-gray-600 shadow-md' 
-            : 'hover:bg-gray-200 dark:hover:bg-gray-600'
+            ? 'bg-white  shadow-md' 
+            : 'hover:bg-gray-200 '
         }`}
         title="Σύστημα"
       >
