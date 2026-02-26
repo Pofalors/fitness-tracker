@@ -1,8 +1,10 @@
 import React from 'react';
 import { useAuthStore } from '../store/authStore';
+import { useTranslation } from '../store/languageStore';
 
 export const Login = () => {
   const { signInWithGoogle } = useAuthStore();
+  const { t } = useTranslation();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-600 to-purple-700 flex items-center justify-center p-4">
@@ -10,7 +12,7 @@ export const Login = () => {
         <div className="text-center mb-8">
           <div className="text-5xl mb-4">💪</div>
           <h1 className="text-3xl font-bold text-gray-800 mb-2">
-            Fitness Tracker
+            {t('appName')}
           </h1>
           <p className="text-gray-600">
             Παρακολούθησε τις προπονήσεις σου και πέτυχε τους στόχους σου!
@@ -19,10 +21,10 @@ export const Login = () => {
 
         <div className="grid grid-cols-2 gap-3 mb-8">
           {[
-            { emoji: '🏃', text: 'Tracking' },
-            { emoji: '📊', text: 'Στατιστικά' },
-            { emoji: '🎯', text: 'Στόχοι' },
-            { emoji: '🏆', text: 'Badges' }
+            { emoji: '🏃', text: t('track') },
+            { emoji: '📊', text: t('statistics') },
+            { emoji: '🎯', text: t('goal') },
+            { emoji: '🏆', text: t('badges') }
           ].map((item, i) => (
             <div key={i} className="bg-gray-50 p-3 rounded-xl text-center">
               <div className="text-xl mb-1">{item.emoji}</div>

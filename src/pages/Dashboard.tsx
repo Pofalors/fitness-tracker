@@ -3,11 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
 import { useWorkoutStore } from '../store/workoutStore';
 import { useEffect } from 'react';
+import { useTranslation } from '../store/languageStore';
 
 export const Dashboard = () => {
   const { user, logout } = useAuthStore();
   const navigate = useNavigate();
   const { workouts, fetchUserWorkouts } = useWorkoutStore();
+  const { t } = useTranslation();
 
   useEffect(() => {  // ΠΡΟΣΘΕΣΕ ΑΥΤΟ ΤΟ useEffect
     fetchUserWorkouts();
@@ -57,7 +59,7 @@ export const Dashboard = () => {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <h2 className="text-2xl font-bold text-gray-800 mb-6">
-          Καλώς ήρθες, {user?.displayName?.split(' ')[0]}! 👋
+          {t('welcome')}, {user?.displayName?.split(' ')[0]}! 👋
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
@@ -65,7 +67,7 @@ export const Dashboard = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-4xl font-bold text-gray-800">0</p>
-                <p className="text-gray-500">Σημερινές</p>
+                <p className="text-gray-500">{t('today')}</p>
               </div>
               <div className="text-5xl">📊</div>
             </div>
@@ -78,7 +80,7 @@ export const Dashboard = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-4xl font-bold text-gray-800">0</p>
-                <p className="text-gray-500">Σερί ημερών</p>
+                <p className="text-gray-500">{t('streak')}</p>
               </div>
               <div className="text-5xl">🔥</div>
             </div>
@@ -93,7 +95,7 @@ export const Dashboard = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-4xl font-bold text-gray-800">0/5</p>
-                <p className="text-gray-500">Στόχος εβδομάδας</p>
+                <p className="text-gray-500">{t('goal')}</p>
               </div>
               <div className="text-5xl">🎯</div>
             </div>
@@ -103,14 +105,14 @@ export const Dashboard = () => {
           </div>
         </div>
 
-        <h3 className="text-lg font-semibold text-gray-800 mb-4">Γρήγορες Ενέργειες</h3>
+        <h3 className="text-lg font-semibold text-gray-800 mb-4">{t('quickActions')}</h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <button
             onClick={() => navigate('/track')}
             className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl p-4 transition-colors"
           >
             <div className="text-2xl mb-2">🏃</div>
-            <div className="text-sm font-medium">Καταγραφή</div>
+            <div className="text-sm font-medium">{t('track')}</div>
           </button>
           
           <button
@@ -118,7 +120,7 @@ export const Dashboard = () => {
             className="bg-green-500 hover:bg-green-600 text-white rounded-xl p-4 transition-colors"
           >
             <div className="text-2xl mb-2">📊</div>
-            <div className="text-sm font-medium">Στατιστικά</div>
+            <div className="text-sm font-medium">{t('statistics')}</div>
           </button>
           
           <button
@@ -126,7 +128,7 @@ export const Dashboard = () => {
             className="bg-purple-500 hover:bg-purple-600 text-white rounded-xl p-4 transition-colors"
           >
             <div className="text-2xl mb-2">📅</div>
-            <div className="text-sm font-medium">Ιστορικό</div>
+            <div className="text-sm font-medium">{t('history')}</div>
           </button>
           
           <button
@@ -134,18 +136,18 @@ export const Dashboard = () => {
             className="bg-orange-500 hover:bg-orange-600 text-white rounded-xl p-4 transition-colors"
           >
             <div className="text-2xl mb-2">👤</div>
-            <div className="text-sm font-medium">Προφίλ</div>
+            <div className="text-sm font-medium">{t('profile')}</div>
           </button>
         </div>
 
         <div className="mt-8">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">Πρόσφατη Δραστηριότητα</h3>
+          <h3 className="text-lg font-semibold text-gray-800 mb-4">{t('recentActivity')}</h3>
           
           {workouts.length === 0 ? (
             <div className="bg-white rounded-xl shadow-sm p-8 text-center text-gray-500">
               <div className="text-4xl mb-3">📝</div>
-              <p>Δεν υπάρχουν ακόμα προπονήσεις</p>
-              <p className="text-sm mt-2">Ξεκίνα καταγράφοντας την πρώτη σου προπόνηση!</p>
+              <p>{t('noWorkouts')}</p>
+              <p className="text-sm mt-2">{t('startFirst')}</p>
             </div>
           ) : (
             <div className="space-y-3">

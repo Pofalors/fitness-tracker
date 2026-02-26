@@ -6,6 +6,9 @@ import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { db } from '../config/firebase';
 import toast from 'react-hot-toast';
 import { trackAchievement } from '../services/analytics';
+import { ThemeToggle } from '../components/settings/ThemeToggle';
+import { LanguageToggle } from '../components/settings/LanguageToggle';
+import { useTranslation } from '../store/languageStore';
 
 interface UserGoals {
   weeklyWorkouts: number;
@@ -17,6 +20,7 @@ export const Profile = () => {
   const navigate = useNavigate();
   const { user } = useAuthStore();
   const { workouts } = useWorkoutStore();
+  const { t } = useTranslation();
   
   const [goals, setGoals] = useState<UserGoals>({
     weeklyWorkouts: 3,
@@ -152,7 +156,7 @@ export const Profile = () => {
             >
               ← Πίσω
             </button>
-            <h1 className="text-xl font-bold text-gray-800">Το Προφίλ μου</h1>
+            <h1 className="text-xl font-bold text-gray-800">{t('myProfile')}</h1>
           </div>
         </div>
       </header>
@@ -184,15 +188,15 @@ export const Profile = () => {
           <div className="grid grid-cols-3 gap-4 text-center">
             <div>
               <p className="text-3xl font-bold">{workouts.length}</p>
-              <p className="text-sm opacity-90">Σύνολο</p>
+              <p className="text-sm opacity-90">{t('totalWorkouts')}</p>
             </div>
             <div>
               <p className="text-3xl font-bold">{streak}</p>
-              <p className="text-sm opacity-90">Σερί ημερών</p>
+              <p className="text-sm opacity-90">{t('streak')}</p>
             </div>
             <div>
               <p className="text-3xl font-bold">{badges.length}</p>
-              <p className="text-sm opacity-90">Badges</p>
+              <p className="text-sm opacity-90">{t('badges')}</p>
             </div>
           </div>
         </div>
@@ -200,12 +204,12 @@ export const Profile = () => {
         {/* Goals Section */}
         <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
           <div className="flex justify-between items-center mb-4">
-            <h3 className="font-semibold text-gray-800">Στόχοι Εβδομάδας</h3>
+            <h3 className="font-semibold text-gray-800">{t('weeklyGoals')}</h3>
             <button
               onClick={() => setEditing(!editing)}
               className="text-blue-500 hover:text-blue-700 text-sm font-medium"
             >
-              {editing ? 'Ακύρωση' : 'Επεξεργασία'}
+              {editing ? t('cancel') : t('edit')}
             </button>
           </div>
 
@@ -213,7 +217,7 @@ export const Profile = () => {
             <div className="space-y-4">
               <div>
                 <label className="block text-sm text-gray-600 mb-1">
-                  Προπονήσεις ανά εβδομάδα
+                  {t('workoutsPerWeek')}
                 </label>
                 <input
                   type="number"
@@ -227,7 +231,7 @@ export const Profile = () => {
               
               <div>
                 <label className="block text-sm text-gray-600 mb-1">
-                  Λεπτά προπόνησης ανά εβδομάδα
+                  {t('minutesPerWeek')}
                 </label>
                 <input
                   type="number"
@@ -251,7 +255,7 @@ export const Profile = () => {
             <div className="space-y-4">
               <div>
                 <div className="flex justify-between text-sm mb-1">
-                  <span className="text-gray-600">Προπονήσεις</span>
+                  <span className="text-gray-600">{t('workoutsPerWeek')}</span>
                   <span className="font-medium">{weekWorkouts} / {goals.weeklyWorkouts}</span>
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-2">
@@ -264,7 +268,7 @@ export const Profile = () => {
 
               <div>
                 <div className="flex justify-between text-sm mb-1">
-                  <span className="text-gray-600">Λεπτά</span>
+                  <span className="text-gray-600">{t('minutesPerWeek')}</span>
                   <span className="font-medium">{weekMinutes} / {goals.weeklyMinutes}</span>
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-2">
@@ -280,7 +284,7 @@ export const Profile = () => {
 
         {/* Badges Section */}
         <div className="bg-white rounded-xl shadow-sm p-6">
-          <h3 className="font-semibold text-gray-800 mb-4">🏆 Badges & Επιτεύγματα</h3>
+          <h3 className="font-semibold text-gray-800 mb-4">🏆 {t('badges')}</h3>
           
           {badges.length === 0 ? (
             <p className="text-gray-500 text-center py-4">
@@ -303,19 +307,35 @@ export const Profile = () => {
         </div>
 
         {/* Settings */}
-        <div className="mt-6 bg-white rounded-xl shadow-sm p-6">
-          <h3 className="font-semibold text-gray-800 mb-4">⚙️ Ρυθμίσεις</h3>
+        <div className="mt-6 bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
+          <h3 className="font-semibold text-gray-800 dark:text-gray-200 mb-4">
+            ⚙️ {t('settings')}
+          </h3>
           
-          <button
-            onClick={() => {
-              if (window.confirm('Θέλεις σίγουρα να αποσυνδεθείς;')) {
-                useAuthStore.getState().logout();
-              }
-            }}
-            className="text-red-500 hover:text-red-700 text-sm font-medium"
-          >
-            Αποσύνδεση
-          </button>
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <span className="text-gray-700 dark:text-gray-300">{t('theme')}</span>
+              <ThemeToggle />
+            </div>
+            
+            <div className="flex items-center justify-between">
+              <span className="text-gray-700 dark:text-gray-300">{t('language')}</span>
+              <LanguageToggle />
+            </div>
+            
+            <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
+              <button
+                onClick={() => {
+                  if (window.confirm(t('confirmLogout'))) {
+                    useAuthStore.getState().logout();
+                  }
+                }}
+                className="text-red-500 hover:text-red-700 text-sm font-medium"
+              >
+                {t('logout')}
+              </button>
+            </div>
+          </div>
         </div>
       </main>
     </div>
