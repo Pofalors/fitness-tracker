@@ -8,16 +8,19 @@ import {
 import { format, eachDayOfInterval, subDays } from 'date-fns';
 import { el, enUS } from 'date-fns/locale';
 import { useTranslation } from '../store/languageStore';
+import { useTheme } from '../store/themeStore';
 
 export const Statistics = () => {
   const navigate = useNavigate();
   const { t, language } = useTranslation();
+  const { theme, applyTheme } = useTheme();
   const { workouts, fetchUserWorkouts } = useWorkoutStore();
   const [timeRange, setTimeRange] = useState<'week' | 'month' | 'all'>('week');
 
   useEffect(() => {
     fetchUserWorkouts();
-  }, []);
+    applyTheme();
+  }, [theme]);
 
   const locale = language === 'el' ? el : enUS;
   const COLORS = ['#3B82F6', '#10B981', '#F59E0B', '#8B5CF6', '#EC4899'];
@@ -68,8 +71,8 @@ export const Statistics = () => {
   const barData = getWorkoutsByDay();
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <header className="bg-white dark:bg-gray-800 shadow-sm">
+    <div className="min-h-screen bg-gray-50">
+      <header className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center gap-4">
             <button

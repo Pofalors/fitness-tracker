@@ -56,6 +56,8 @@ export const translations = {
     recentActivity: 'Πρόσφατη Δραστηριότητα',
     noWorkouts: 'Δεν υπάρχουν ακόμα προπονήσεις',
     startFirst: 'Ξεκίνα καταγράφοντας την πρώτη σου προπόνηση!',
+    days: 'μέρες',
+    viewAll: 'Δες όλες',
     
     // Track Workout
     workoutType: 'Τύπος Προπόνησης',
@@ -154,6 +156,8 @@ export const translations = {
     recentActivity: 'Recent Activity',
     noWorkouts: 'No workouts yet',
     startFirst: 'Start by logging your first workout!',
+    days: 'days',
+    viewAll: 'View all',
     
     // Track Workout
     workoutType: 'Workout Type',

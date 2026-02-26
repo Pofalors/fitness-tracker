@@ -4,20 +4,23 @@ import { useAuthStore } from '../store/authStore';
 import { useWorkoutStore } from '../store/workoutStore';
 import { useEffect } from 'react';
 import { useTranslation } from '../store/languageStore';
+import { useTheme } from '../store/themeStore';
 
 export const Dashboard = () => {
   const { user, logout } = useAuthStore();
   const navigate = useNavigate();
   const { workouts, fetchUserWorkouts } = useWorkoutStore();
   const { t } = useTranslation();
+  const { theme, applyTheme } = useTheme();
 
-  useEffect(() => {  // ΠΡΟΣΘΕΣΕ ΑΥΤΟ ΤΟ useEffect
+  useEffect(() => {
     fetchUserWorkouts();
-  }, []); 
+    applyTheme();
+  }, [theme]); 
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="gradient-bg text-white shadow-lg">
+      <header className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-3">

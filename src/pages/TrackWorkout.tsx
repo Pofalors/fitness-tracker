@@ -5,11 +5,18 @@ import { Stopwatch } from '../components/tracking/Stopwatch';
 import type { WorkoutType } from '../types/workout.types';
 import toast from 'react-hot-toast';
 import { useTranslation } from '../store/languageStore';
+import { useTheme } from '../store/themeStore';
+import { useEffect } from 'react';
 
 export const TrackWorkout = () => {
   const navigate = useNavigate();
   const { addWorkout, loading } = useWorkoutStore();
   const { t } = useTranslation();
+  const { theme, applyTheme } = useTheme();
+
+  useEffect(() => {
+    applyTheme();
+  }, [theme]);
   
   const [formData, setFormData] = useState({
     type: 'running' as WorkoutType,
@@ -50,8 +57,8 @@ export const TrackWorkout = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <header className="bg-white dark:bg-gray-800 shadow-sm">
+    <div className="min-h-screen bg-gray-50">
+      <header className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center gap-4">
             <button
