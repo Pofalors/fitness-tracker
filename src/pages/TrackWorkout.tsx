@@ -50,13 +50,13 @@ export const TrackWorkout = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
-      <header className="bg-white dark:bg-gray-800 shadow-sm transition-colors duration-300">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <header className="bg-white dark:bg-gray-800 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center gap-4">
             <button
               onClick={() => navigate('/')}
-              className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
+              className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100"
             >
               ← {t('back')}
             </button>
@@ -69,8 +69,7 @@ export const TrackWorkout = () => {
         <form onSubmit={handleSubmit} className="space-y-6">
           <Stopwatch onTimeUpdate={(seconds) => setFormData({ ...formData, duration: seconds })} />
 
-          {/* Workout Type */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 transition-colors duration-300">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
               {t('workoutType')}
             </label>
@@ -99,8 +98,7 @@ export const TrackWorkout = () => {
             </div>
           </div>
 
-          {/* Date */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 transition-colors duration-300">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               {t('date')}
             </label>
@@ -108,13 +106,12 @@ export const TrackWorkout = () => {
               type="date"
               value={formData.date}
               onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-              className="w-full p-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+              className="w-full p-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
 
-          {/* Distance */}
           {(formData.type === 'running' || formData.type === 'walking') && (
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 transition-colors duration-300">
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 {t('distance')}
               </label>
@@ -124,14 +121,13 @@ export const TrackWorkout = () => {
                 min="0"
                 value={formData.distance}
                 onChange={(e) => setFormData({ ...formData, distance: e.target.value })}
-                className="w-full p-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                className="w-full p-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder={t('distancePlaceholder')}
               />
             </div>
           )}
 
-          {/* Notes */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 transition-colors duration-300">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               {t('notes')}
             </label>
@@ -139,12 +135,11 @@ export const TrackWorkout = () => {
               value={formData.notes}
               onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
               rows={3}
-              className="w-full p-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+              className="w-full p-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               placeholder={t('notesPlaceholder')}
             />
           </div>
 
-          {/* Submit Button */}
           <button
             type="submit"
             disabled={loading}

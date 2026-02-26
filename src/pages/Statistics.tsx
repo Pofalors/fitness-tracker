@@ -8,12 +8,10 @@ import {
 import { format, eachDayOfInterval, subDays } from 'date-fns';
 import { el, enUS } from 'date-fns/locale';
 import { useTranslation } from '../store/languageStore';
-import { useTheme } from '../store/themeStore';
 
 export const Statistics = () => {
   const navigate = useNavigate();
   const { t, language } = useTranslation();
-  const { theme } = useTheme();
   const { workouts, fetchUserWorkouts } = useWorkoutStore();
   const [timeRange, setTimeRange] = useState<'week' | 'month' | 'all'>('week');
 
@@ -21,28 +19,16 @@ export const Statistics = () => {
     fetchUserWorkouts();
   }, []);
 
-  // Επέλεξε locale based on language
   const locale = language === 'el' ? el : enUS;
-
-  // Χρώματα για τα γραφήματα
   const COLORS = ['#3B82F6', '#10B981', '#F59E0B', '#8B5CF6', '#EC4899'];
 
-  const gridColor = theme === 'dark' ? '#374151' : '#E5E7EB';
-  const textColor = theme === 'dark' ? '#9CA3AF' : '#6B7280';
-  const tooltipBg = theme === 'dark' ? '#1F2937' : '#FFFFFF';
-  const tooltipText = theme === 'dark' ? '#F3F4F6' : '#1F2937';
-
-  // Υπολογισμός στατιστικών
   const totalWorkouts = workouts.length;
   const totalMinutes = Math.floor(workouts.reduce((acc, w) => acc + w.duration, 0) / 60);
   const totalDistance = workouts.reduce((acc, w) => acc + (w.distance || 0), 0);
   const avgDuration = totalWorkouts > 0 ? Math.floor(totalMinutes / totalWorkouts) : 0;
-
-  // Προσωπικά records
   const longestWorkout = workouts.reduce((max, w) => Math.max(max, w.duration), 0);
   const longestDistance = workouts.reduce((max, w) => Math.max(max, w.distance || 0), 0);
 
-  // Προπονήσεις ανά τύπο για το pie chart
   const workoutsByType = workouts.reduce((acc: any, workout) => {
     acc[workout.type] = (acc[workout.type] || 0) + 1;
     return acc;
@@ -56,7 +42,6 @@ export const Statistics = () => {
     value: workoutsByType[key]
   }));
 
-  // Προπονήσεις ανά ημέρα για το bar chart
   const getWorkoutsByDay = () => {
     const now = new Date();
     let startDate;
@@ -76,7 +61,6 @@ export const Statistics = () => {
       return {
         date: format(day, 'EEE dd', { locale }),
         minutes: Math.floor(dayWorkouts.reduce((acc, w) => acc + w.duration, 0) / 60),
-        workouts: dayWorkouts.length
       };
     });
   };
@@ -84,13 +68,13 @@ export const Statistics = () => {
   const barData = getWorkoutsByDay();
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
-      <header className="bg-white dark:bg-gray-800 shadow-sm transition-colors duration-300">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <header className="bg-white dark:bg-gray-800 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center gap-4">
             <button
               onClick={() => navigate('/')}
-              className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
+              className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100"
             >
               ← {t('back')}
             </button>
@@ -100,8 +84,7 @@ export const Statistics = () => {
       </header>
 
       <main className="max-w-6xl mx-auto px-4 py-8">
-        {/* Time Range Filter */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4 mb-6 transition-colors duration-300">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4 mb-6">
           <div className="flex gap-2">
             {[
               { value: 'week', label: t('week') },
@@ -153,21 +136,20 @@ export const Statistics = () => {
         {/* Charts */}
         <div className="grid md:grid-cols-2 gap-6">
           {/* Bar Chart */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 transition-colors duration-300">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
             <h3 className="font-semibold text-gray-800 dark:text-gray-200 mb-4">{t('workoutsPerDay')}</h3>
             <div className="h-64">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={barData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke={gridColor} />
-                  <XAxis dataKey="date" stroke={textColor} />
-                  <YAxis stroke={textColor} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+                  <XAxis dataKey="date" stroke="#6B7280" />
+                  <YAxis stroke="#6B7280" />
                   <Tooltip 
                     contentStyle={{ 
-                      backgroundColor: tooltipBg,
+                      backgroundColor: '#1F2937',
                       border: 'none',
                       borderRadius: '0.5rem',
-                      color: tooltipText,
-                      boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)'
+                      color: '#F3F4F6'
                     }}
                   />
                   <Bar dataKey="minutes" fill="#3B82F6" />
@@ -177,7 +159,7 @@ export const Statistics = () => {
           </div>
 
           {/* Pie Chart */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 transition-colors duration-300">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
             <h3 className="font-semibold text-gray-800 dark:text-gray-200 mb-4">{t('workoutTypes')}</h3>
             <div className="h-64">
               <ResponsiveContainer width="100%" height="100%">
@@ -198,11 +180,10 @@ export const Statistics = () => {
                   </Pie>
                   <Tooltip 
                     contentStyle={{ 
-                      backgroundColor: tooltipBg,
+                      backgroundColor: '#1F2937',
                       border: 'none',
                       borderRadius: '0.5rem',
-                      color: tooltipText,
-                      boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)'
+                      color: '#F3F4F6'
                     }}
                   />
                 </PieChart>
