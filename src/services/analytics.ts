@@ -1,10 +1,9 @@
 import ReactGA from 'react-ga4';
 
-// Το Measurement ID σου από το Google Analytics
 const MEASUREMENT_ID = import.meta.env.VITE_GA_MEASUREMENT_ID;
 
 export const initAnalytics = () => {
-  if (import.meta.env.PROD) { // Μόνο σε production
+  if (import.meta.env.PROD) { 
     ReactGA.initialize(MEASUREMENT_ID);
     console.log('📊 Analytics initialized');
   }
