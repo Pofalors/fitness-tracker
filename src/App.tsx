@@ -11,6 +11,8 @@ import { Profile } from './pages/Profile';
 import { Navigation } from './components/layout/Navigation';
 import { InstallPrompt } from './components/common/InstallPrompt';
 import { ErrorBoundary } from './components/common/ErrorBoundary';
+import { useLocation } from 'react-router-dom';
+import { initAnalytics, pageView } from './services/analytics';
 
 // Component για redirect μετά το login
 const AuthRedirect = ({ children }: { children: React.ReactNode }) => {
@@ -60,11 +62,26 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 };
 
 function App() {
+  useEffect(() => {
+    initAnalytics();
+  }, []);
+
+  // Component για tracking page views
+  const PageTracker = () => {
+    const location = useLocation();
+    
+    useEffect(() => {
+      pageView(location.pathname);
+    }, [location]);
+    
+    return null;
+  };
   return (
     <>
       <ErrorBoundary>
         <Toaster position="top-center" />
         <BrowserRouter>
+          <PageTracker />
           <Navigation />
           <InstallPrompt />
           <Routes>

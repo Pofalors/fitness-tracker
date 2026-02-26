@@ -5,6 +5,7 @@ import { useWorkoutStore } from '../store/workoutStore';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { db } from '../config/firebase';
 import toast from 'react-hot-toast';
+import { trackAchievement } from '../services/analytics';
 
 interface UserGoals {
   weeklyWorkouts: number;
@@ -92,6 +93,7 @@ export const Profile = () => {
   };
 
   const calculateBadges = () => {
+    const oldBadgesCount = badges.length;
     const newBadges: string[] = [];
     
     // Badge για πρώτη προπόνηση
@@ -111,6 +113,12 @@ export const Profile = () => {
     const hasYoga = workouts.some(w => w.type === 'yoga');
     if (hasYoga) newBadges.push('Γιόγκι 🧘');
     
+    if (newBadges.length > oldBadgesCount) {
+      const newBadge = newBadges.find(badge => !badges.includes(badge));
+      if (newBadge) {
+        trackAchievement(newBadge);
+      }
+    }
     setBadges(newBadges);
   };
 

@@ -3,6 +3,7 @@ import { collection, addDoc, query, where, getDocs, orderBy } from 'firebase/fir
 import { db } from '../config/firebase';
 import type { Workout, WorkoutFormData } from '../types/workout.types';
 import { useAuthStore } from './authStore';
+import { trackWorkout } from '../services/analytics';
 
 interface WorkoutStore {
   workouts: Workout[];
@@ -29,6 +30,8 @@ export const useWorkoutStore = create<WorkoutStore>((set) => ({
       };
       
       await addDoc(collection(db, 'workouts'), workout);
+
+      trackWorkout(workoutData.type, workoutData.duration);
       
       // Refresh workouts list
       const workoutsRef = collection(db, 'workouts');

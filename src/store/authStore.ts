@@ -7,6 +7,7 @@ import {
 } from 'firebase/auth';
 import type { User } from 'firebase/auth';
 import { auth } from '../config/firebase';
+import { trackLogin } from '../services/analytics';
 
 interface AuthStore {
   user: User | null;
@@ -30,6 +31,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
     try {
       console.log('Προσπάθεια σύνδεσης με Google...');
       const result = await signInWithPopup(auth, provider);
+      trackLogin('google');
       console.log('Επιτυχής σύνδεση:', result.user.email);
       
       // Μην κάνεις set user εδώ - το onAuthStateChanged θα το κάνει
