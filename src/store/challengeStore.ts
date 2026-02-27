@@ -12,6 +12,7 @@ interface ChallengeStore {
   joinChallenge: (challenge: Omit<Challenge, 'id' | 'userId' | 'progress' | 'status'>) => Promise<void>;
   updateProgress: (challengeId: string, progress: number) => Promise<void>;
   completeChallenge: (challengeId: string) => Promise<void>;
+  cancelChallenge: (challengeId: string) => Promise<void>;
 }
 
 export const useChallengeStore = create<ChallengeStore>((set, get) => ({
@@ -65,13 +66,38 @@ export const useChallengeStore = create<ChallengeStore>((set, get) => ({
         userId: user.uid,
         fromUserId: 'system',
         type: 'achievement',
-        message: `Ξεκίνησες το challenge: ${challengeData.title}!`,
+        message: `You started the challenge: ${challengeData.title}!`,
         link: '/profile'
       });
     } catch (error) {
       console.error('Error joining challenge:', error);
     }
   },
+
+  cancelChallenge: async (challengeId: string) => {
+    const user = useAuthStore.getState().user;
+    if (!user) return;
+
+    try {
+        const challengeRef = doc(db, 'challenges', challengeId);
+        await updateDoc(challengeRef, {
+        status: 'failed',
+        completedAt: new Date()
+        });
+        
+        await get().fetchChallenges();
+        
+        useNotificationStore.getState().addNotification({
+        userId: user.uid,
+        fromUserId: 'system',
+        type: 'achievement',
+        message: `❌ You cancelled the challenge!`,
+        link: '/profile'
+        });
+    } catch (error) {
+        console.error('Error cancelling challenge:', error);
+    }
+ },
 
   updateProgress: async (challengeId: string, progress: number) => {
     const user = useAuthStore.getState().user;
@@ -111,7 +137,7 @@ export const useChallengeStore = create<ChallengeStore>((set, get) => ({
         userId: user.uid,
         fromUserId: 'system',
         type: 'achievement',
-        message: `🎉 Ολοκλήρωσες το challenge: ${challenge?.title}!`,
+        message: `🎉 You completed the challenge: ${challenge?.title}!`,
         link: '/profile'
       });
     } catch (error) {

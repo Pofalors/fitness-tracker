@@ -50,38 +50,52 @@ export const ChallengesList = () => {
         🎯 {t('challenges')}
       </h3>
 
-      {/* Active Challenges */}
-      {challenges.filter(c => c.status === 'active').length > 0 && (
-        <div className="mb-6">
-          <h4 className="text-sm font-medium text-gray-600  mb-3">
-            {t('activeChallenges')}
-          </h4>
-          <div className="space-y-3">
-            {challenges.filter(c => c.status === 'active').map(challenge => (
-              <div key={challenge.id} className="bg-white  rounded-xl p-4 border border-gray-200 ">
-                <div className="flex items-center justify-between mb-2">
-                  <div className="flex items-center gap-2">
-                    <span className="text-2xl">{challenge.icon}</span>
-                    <h5 className="font-medium text-gray-800 ">{challenge.title}</h5>
-                  </div>
-                  <span className="text-xs px-2 py-1 bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 rounded-full">
+    {/* Active Challenges */}
+    {challenges.filter(c => c.status === 'active').length > 0 && (
+    <div className="mb-6">
+        <h4 className="text-sm font-medium text-gray-600  mb-3">
+        {t('activeChallenges')}
+        </h4>
+        <div className="space-y-3">
+        {challenges.filter(c => c.status === 'active').map(challenge => (
+            <div key={challenge.id} className="bg-white  rounded-xl p-4 border border-gray-200 ">
+            <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-2">
+                <span className="text-2xl">{challenge.icon}</span>
+                <h5 className="font-medium text-gray-800 dark:text-gray-200">{challenge.title}</h5>
+                </div>
+                <div className="flex items-center gap-2">
+                <span className="text-xs px-2 py-1 bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 rounded-full">
                     {Math.round((challenge.progress / challenge.goal) * 100)}%
-                  </span>
+                </span>
+                
+                {/* Κουμπί Cancel */}
+                <button
+                    onClick={() => {
+                    if (window.confirm(t('cancelConfirm'))) {
+                        useChallengeStore.getState().cancelChallenge(challenge.id!);
+                    }
+                    }}
+                    className="text-xs px-2 py-1 bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-full hover:bg-red-200 dark:hover:bg-red-900/40 transition-colors"
+                >
+                    ✕ {t('cancelChallenge')}
+                </button>
                 </div>
-                <div className="w-full bg-gray-200  rounded-full h-2">
-                  <div 
-                    className="bg-blue-500 rounded-full h-2 transition-all"
-                    style={{ width: `${(challenge.progress / challenge.goal) * 100}%` }}
-                  />
-                </div>
-                <p className="text-xs text-gray-500  mt-2">
-                  {challenge.progress} / {challenge.goal} {t('days')}
-                </p>
-              </div>
-            ))}
-          </div>
+            </div>
+            <div className="w-full bg-gray-200  rounded-full h-2">
+                <div 
+                className="bg-blue-500 rounded-full h-2 transition-all"
+                style={{ width: `${(challenge.progress / challenge.goal) * 100}%` }}
+                />
+            </div>
+            <p className="text-xs text-gray-500  mt-2">
+                {challenge.progress} / {challenge.goal} {t('days')}
+            </p>
+            </div>
+        ))}
         </div>
-      )}
+    </div>
+    )}
 
       {/* Completed Challenges */}
       {challenges.filter(c => c.status === 'completed').length > 0 && (

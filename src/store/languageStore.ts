@@ -146,6 +146,11 @@ export const translations = {
     join: 'Συμμετοχή',
     joined: 'Συμμετέχεις',
     completedOn: 'Ολοκληρώθηκε στις',
+    challengeStarted: 'Ξεκίνησες το challenge: ',
+    cancelChallenge: 'Ακύρωση',
+    cancelConfirm: 'Θα χάσεις όλη την πρόοδο του challenge. Συνέχεια;',
+    cancelConfirmed: '❌ Ακύρωσες το challenge',
+    challengeCompleted: '🎉 Ολοκλήρωσες το challenge: ',
     
     // Settings
     appearance: 'Εμφάνιση',
@@ -279,6 +284,11 @@ export const translations = {
     join: 'Join',
     joined: 'Joined',
     completedOn: 'Completed on',
+    challengeStarted: 'You joined the challenge: ',
+    cancelChallenge: 'Cancel',
+    cancelConfirm: 'You will lose all challenge progress. Continue?',
+    cancelConfirmed: '❌ You cancelled the challenge',
+    challengeCompleted: '🎉 Challenge completed: ',
     
     // Settings
     appearance: 'Appearance',
