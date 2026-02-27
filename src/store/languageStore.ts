@@ -122,6 +122,15 @@ export const translations = {
     settings: 'Ρυθμίσεις',
     logout: 'Αποσύνδεση',
     confirmLogout: 'Θέλεις σίγουρα να αποσυνδεθείς;',
+    bio: 'Βιογραφικό',
+    editBio: 'Επεξεργασία βιογραφικού',
+    uploading: 'Ανέβασμα...',
+    uploadPhoto: 'Ανέβασμα φωτογραφίας',
+    photoUpdated: 'Η φωτογραφία ενημερώθηκε!',
+    bioUpdated: 'Το βιογραφικό ενημερώθηκε!',
+    bioPlaceholder: 'Γράψε λίγα λόγια για εσένα...',
+    noBio: 'Δεν υπάρχει βιογραφικό ακόμα...',
+    saveError: 'Σφάλμα στην αποθήκευση',
     
     // Settings
     appearance: 'Εμφάνιση',
@@ -231,6 +240,15 @@ export const translations = {
     settings: 'Settings',
     logout: 'Logout',
     confirmLogout: 'Are you sure you want to logout?',
+    bio: 'Bio',
+    editBio: 'Edit bio',
+    uploading: 'Uploading...',
+    uploadPhoto: 'Upload photo',
+    photoUpdated: 'Photo updated successfully!',
+    bioUpdated: 'Bio updated successfully!',
+    bioPlaceholder: 'Write something about yourself...',
+    noBio: 'No bio yet...',
+    saveError: 'Error saving bio. Please try again.',
     
     // Settings
     appearance: 'Appearance',

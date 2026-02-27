@@ -10,6 +10,8 @@ import { ThemeToggle } from '../components/settings/ThemeToggle';
 import { LanguageToggle } from '../components/settings/LanguageToggle';
 import { useTranslation } from '../store/languageStore';
 import { useSocialStore } from '../store/socialStore';
+import { auth } from '../config/firebase';
+import { useCallback } from 'react';
 
 interface UserGoals {
   weeklyWorkouts: number;
@@ -23,6 +25,9 @@ export const Profile = () => {
   const { workouts } = useWorkoutStore();
   const { t } = useTranslation();
   const { followers, following, fetchSocialData } = useSocialStore();
+  const [isEditingBio, setIsEditingBio] = useState(false);
+  const [bio, setBio] = useState('');
+  const [tempBio, setTempBio] = useState('');
   
   const [goals, setGoals] = useState<UserGoals>({
     weeklyWorkouts: 3,
@@ -41,6 +46,7 @@ export const Profile = () => {
     loadUserGoals();
     calculateStreak();
     calculateBadges();
+    loadUserProfile();
   }, [workouts]);
 
   useEffect(() => {
@@ -54,6 +60,43 @@ export const Profile = () => {
       saveStreak();
     }
   }, [streak, user]);
+
+  const loadUserProfile = async () => {
+    if (!user) return;
+    
+    try {
+      const docRef = doc(db, 'users', user.uid);
+      const docSnap = await getDoc(docRef);
+      
+      if (docSnap.exists()) {
+        const userData = docSnap.data();
+        if (userData.bio) {
+          setBio(userData.bio);
+        }
+      }
+    } catch (error) {
+      console.error('Error loading profile:', error);
+    }
+  };
+
+  const saveBio = async () => {
+    if (!user) return;
+    
+    try {
+      // Χρησιμοποίησε το db από το config, όχι νέα αναφορά
+      await setDoc(doc(db, 'users', user.uid), {
+        bio: tempBio,
+        updatedAt: new Date()
+      }, { merge: true });
+      
+      setBio(tempBio);
+      setIsEditingBio(false);
+      toast.success(t('bioUpdated'));
+    } catch (error) {
+      console.error('Error saving bio:', error);
+      toast.error(t('saveError'));
+    }
+  };
 
   const loadUserGoals = async () => {
     if (!user) return;
@@ -168,7 +211,7 @@ export const Profile = () => {
               onClick={() => navigate('/')}
               className="text-gray-600 hover:text-gray-900"
             >
-              ← Πίσω
+              ← {t('back')}
             </button>
             <h1 className="text-xl font-bold text-gray-800">{t('myProfile')}</h1>
           </div>
@@ -177,22 +220,67 @@ export const Profile = () => {
 
       <main className="max-w-3xl mx-auto px-4 py-8">
         {/* User Info Card */}
-        <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
-          <div className="flex items-center gap-4">
-            {user?.photoURL ? (
+        <div className="bg-white  rounded-xl shadow-sm p-6 mb-6">
+          <div className="flex items-start gap-4">
+            <div className="relative">
               <img 
-                src={user.photoURL} 
-                alt={user.displayName || ''} 
-                className="w-16 h-16 rounded-full"
+                src={user?.photoURL || `https://ui-avatars.com/api/?name=${user?.displayName || 'User'}&background=3b82f6&color=fff&size=128`}
+                alt={user?.displayName || ''} 
+                className="w-20 h-20 rounded-full object-cover border-4 border-blue-500"
               />
-            ) : (
-              <div className="w-16 h-16 rounded-full bg-blue-500 flex items-center justify-center text-white text-2xl">
-                {user?.displayName?.[0] || 'U'}
+            </div>
+            
+            <div className="flex-1">
+              <h2 className="text-xl font-bold text-gray-800 ">{user?.displayName}</h2>
+              <p className="text-gray-600 ">{user?.email}</p>
+              
+              {/* Bio Section */}
+              <div className="mt-3">
+                {isEditingBio ? (
+                  <div className="space-y-2">
+                    <textarea
+                      value={tempBio}
+                      onChange={(e) => setTempBio(e.target.value)}
+                      placeholder={t('bioPlaceholder')}
+                      className="w-full p-2 border border-gray-300  rounded-lg bg-white  text-gray-800  text-sm"
+                      rows={3}
+                      maxLength={200}
+                    />
+                    <div className="flex gap-2">
+                      <button
+                        onClick={saveBio}
+                        className="flex items-center gap-1 px-3 py-1 bg-green-500 text-white text-sm rounded-lg hover:bg-green-600"
+                      >
+                        ✓ {t('save')}
+                      </button>
+                      <button
+                        onClick={() => {
+                          setIsEditingBio(false);
+                          setTempBio(bio);
+                        }}
+                        className="flex items-center gap-1 px-3 py-1 bg-gray-500 text-white text-sm rounded-lg hover:bg-gray-600"
+                      >
+                        ✗ {t('cancel')}
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex items-start gap-2">
+                    <p className="text-gray-600  text-sm flex-1">
+                      {bio || t('noBio')}
+                    </p>
+                    <button
+                      onClick={() => {
+                        setIsEditingBio(true);
+                        setTempBio(bio);
+                      }}
+                      className="text-blue-500 hover:text-blue-600"
+                    >
+                      ✏️
+                    </button>
+                  </div>
+                )}
               </div>
-            )}
-            <div>
-              <h2 className="text-xl font-bold text-gray-800">{user?.displayName}</h2>
-              <p className="text-gray-600">{user?.email}</p>
             </div>
           </div>
         </div>
