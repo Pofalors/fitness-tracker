@@ -342,12 +342,12 @@ export const Profile = () => {
           
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <span className="text-gray-700 ">{t('theme')}</span>
+              <span className="text-gray-800 ">{t('theme')}</span>
               <ThemeToggle />
             </div>
             
             <div className="flex items-center justify-between">
-              <span className="text-gray-700 ">{t('language')}</span>
+              <span className="text-gray-800 ">{t('language')}</span>
               <LanguageToggle />
             </div>
             

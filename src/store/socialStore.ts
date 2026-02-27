@@ -1,8 +1,9 @@
 import { create } from 'zustand';
-import { collection, query, where, getDocs, addDoc, deleteDoc, doc } from 'firebase/firestore';
+import { collection, query, where, getDocs, addDoc, deleteDoc, doc, getDoc } from 'firebase/firestore';
 import { db } from '../config/firebase';
 import { useAuthStore } from './authStore';
 import type { Follow, Like, Comment } from '../types/social.types';
+import { useNotificationStore } from './notificationStore';
 
 interface SocialStore {
   followers: Follow[];
@@ -38,6 +39,14 @@ export const useSocialStore = create<SocialStore>((set, get) => ({
       };
       
       await addDoc(collection(db, 'follows'), follow);
+      //NOTIFICATION
+      await useNotificationStore.getState().addNotification({
+        userId: userId,
+        fromUserId: currentUser.uid,
+        type: 'follow',
+        message: `${currentUser.displayName || 'Κάποιος'} σε ακολούθησε`,
+        link: '/profile'
+      });
       await get().fetchSocialData(currentUser.uid);
     } catch (error) {
       console.error('Error following user:', error);
@@ -78,6 +87,21 @@ export const useSocialStore = create<SocialStore>((set, get) => ({
       };
       
       await addDoc(collection(db, 'likes'), like);
+
+      // ΠΡΟΣΘΕΣΕ NOTIFICATION
+      const workoutRef = doc(db, 'workouts', workoutId);
+      const workoutSnap = await getDoc(workoutRef);
+      
+      if (workoutSnap.exists()) {
+        const workoutData = workoutSnap.data();
+        await useNotificationStore.getState().addNotification({
+          userId: workoutData.userId,
+          fromUserId: currentUser.uid,
+          type: 'like',
+          message: `${currentUser.displayName || 'Κάποιος'} του άρεσε η προπόνησή σου`,
+          link: '/history'
+        });
+      }
       await get().fetchSocialData(currentUser.uid);
     } catch (error) {
       console.error('Error liking workout:', error);

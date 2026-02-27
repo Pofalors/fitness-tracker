@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from '../../store/languageStore';
 import { useTheme } from '../../store/themeStore';
+import { NotificationBell } from '../notifications/NotificationBell';
 
 export const Navigation = () => {
   const navigate = useNavigate();
@@ -40,6 +41,8 @@ export const Navigation = () => {
               )}
             </button>
           ))}
+          {/*NOTIFICATION BELL*/}
+          <NotificationBell />
         </div>
       </div>
     </nav>

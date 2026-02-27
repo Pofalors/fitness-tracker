@@ -103,7 +103,7 @@ export const History = () => {
                 className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                   filter === f.value
                     ? 'bg-blue-500 text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
                 }`}
               >
                 {f.label}

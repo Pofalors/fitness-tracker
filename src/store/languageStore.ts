@@ -50,6 +50,11 @@ export const translations = {
     history: 'Ιστορικό',
     statistics: 'Στατιστικά',
     profile: 'Προφίλ',
+
+    // Notifications
+    notifications: 'Ειδοποιήσεις',
+    markAllRead: 'Ανάγνωση όλων',
+    noNotifications: 'Δεν υπάρχουν ειδοποιήσεις',
     
     // Dashboard
     welcome: 'Καλώς ήρθες',
@@ -154,6 +159,11 @@ export const translations = {
     history: 'History',
     statistics: 'Statistics',
     profile: 'Profile',
+
+    // Notifications
+    notifications: 'Notifications',
+    markAllRead: 'Mark all as read',
+    noNotifications: 'No notifications',
     
     // Dashboard
     welcome: 'Welcome',

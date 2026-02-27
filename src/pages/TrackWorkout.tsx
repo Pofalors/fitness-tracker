@@ -77,7 +77,7 @@ export const TrackWorkout = () => {
           <Stopwatch onTimeUpdate={(seconds) => setFormData({ ...formData, duration: seconds })} />
 
           <div className="bg-white  rounded-xl shadow-sm p-6">
-            <label className="block text-sm font-medium text-gray-700  mb-3">
+            <label className="block text-sm font-medium text-gray-800  mb-3">
               {t('workoutType')}
             </label>
             <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
@@ -96,7 +96,7 @@ export const TrackWorkout = () => {
                   <div className={`text-sm font-medium ${
                     formData.type === type.value
                       ? 'text-gray-900 '
-                      : 'text-gray-700 '
+                      : 'text-gray-800 '
                   }`}>
                     {type.label}
                   </div>
@@ -106,20 +106,20 @@ export const TrackWorkout = () => {
           </div>
 
           <div className="bg-white  rounded-xl shadow-sm p-6">
-            <label className="block text-sm font-medium text-gray-700  mb-2">
+            <label className="block text-sm font-medium text-gray-800  mb-2">
               {t('date')}
             </label>
             <input
               type="date"
               value={formData.date}
               onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-              className="w-full p-3 border border-gray-300  bg-white  text-gray-900  rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full p-3 border border-gray-300  bg-white  text-gray-800  rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
 
           {(formData.type === 'running' || formData.type === 'walking') && (
             <div className="bg-white  rounded-xl shadow-sm p-6">
-              <label className="block text-sm font-medium text-gray-700  mb-2">
+              <label className="block text-sm font-medium text-gray-800  mb-2">
                 {t('distance')}
               </label>
               <input
@@ -135,7 +135,7 @@ export const TrackWorkout = () => {
           )}
 
           <div className="bg-white  rounded-xl shadow-sm p-6">
-            <label className="block text-sm font-medium text-gray-700  mb-2">
+            <label className="block text-sm font-medium text-gray-800  mb-2">
               {t('notes')}
             </label>
             <textarea
