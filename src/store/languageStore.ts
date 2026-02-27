@@ -131,6 +131,21 @@ export const translations = {
     bioPlaceholder: 'Γράψε λίγα λόγια για εσένα...',
     noBio: 'Δεν υπάρχει βιογραφικό ακόμα...',
     saveError: 'Σφάλμα στην αποθήκευση',
+
+    // Challenges
+    challenges: 'Προκλήσεις',
+    activeChallenges: 'Ενεργές Προκλήσεις',
+    completedChallenges: 'Ολοκληρωμένες',
+    availableChallenges: 'Διαθέσιμες Προκλήσεις',
+    yoga30Days: '30 μέρες Γιόγκα',
+    yoga30DaysDesc: 'Κάνε γιόγκα για 30 συνεχόμενες ημέρες',
+    running100km: '100 χιλιόμετρα τρέξιμο',
+    running100kmDesc: 'Συμπλήρωσε 100 χιλιόμετρα τρεξίματος',
+    gymStreak: '7 μέρες Γυμναστική',
+    gymStreakDesc: 'Προπονήσου για 7 συνεχόμενες ημέρες',
+    join: 'Συμμετοχή',
+    joined: 'Συμμετέχεις',
+    completedOn: 'Ολοκληρώθηκε στις',
     
     // Settings
     appearance: 'Εμφάνιση',
@@ -249,6 +264,21 @@ export const translations = {
     bioPlaceholder: 'Write something about yourself...',
     noBio: 'No bio yet...',
     saveError: 'Error saving bio. Please try again.',
+
+    // Challenges
+    challenges: 'Challenges',
+    activeChallenges: 'Active Challenges',
+    completedChallenges: 'Completed',
+    availableChallenges: 'Available Challenges',
+    yoga30Days: '30 Days of Yoga',
+    yoga30DaysDesc: 'Do yoga for 30 consecutive days',
+    running100km: '100km Running',
+    running100kmDesc: 'Complete 100km of running',
+    gymStreak: '7 Days Gym Streak',
+    gymStreakDesc: 'Workout for 7 consecutive days',
+    join: 'Join',
+    joined: 'Joined',
+    completedOn: 'Completed on',
     
     // Settings
     appearance: 'Appearance',

@@ -10,8 +10,7 @@ import { ThemeToggle } from '../components/settings/ThemeToggle';
 import { LanguageToggle } from '../components/settings/LanguageToggle';
 import { useTranslation } from '../store/languageStore';
 import { useSocialStore } from '../store/socialStore';
-import { auth } from '../config/firebase';
-import { useCallback } from 'react';
+import { ChallengesList } from '../components/challenges/ChallengesList';
 
 interface UserGoals {
   weeklyWorkouts: number;
@@ -83,7 +82,6 @@ export const Profile = () => {
     if (!user) return;
     
     try {
-      // Χρησιμοποίησε το db από το config, όχι νέα αναφορά
       await setDoc(doc(db, 'users', user.uid), {
         bio: tempBio,
         updatedAt: new Date()
@@ -420,6 +418,11 @@ export const Profile = () => {
               ))}
             </div>
           )}
+        </div>
+
+        {/* ΝΕΟ SECTION: Challenges */}
+        <div className="mt-6 bg-white  rounded-xl shadow-sm p-6">
+          <ChallengesList />
         </div>
 
         {/* Settings */}
