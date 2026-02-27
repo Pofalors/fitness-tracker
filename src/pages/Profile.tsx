@@ -9,6 +9,7 @@ import { trackAchievement } from '../services/analytics';
 import { ThemeToggle } from '../components/settings/ThemeToggle';
 import { LanguageToggle } from '../components/settings/LanguageToggle';
 import { useTranslation } from '../store/languageStore';
+import { useSocialStore } from '../store/socialStore';
 
 interface UserGoals {
   weeklyWorkouts: number;
@@ -21,6 +22,7 @@ export const Profile = () => {
   const { user } = useAuthStore();
   const { workouts } = useWorkoutStore();
   const { t } = useTranslation();
+  const { followers, following, fetchSocialData } = useSocialStore();
   
   const [goals, setGoals] = useState<UserGoals>({
     weeklyWorkouts: 3,
@@ -40,6 +42,18 @@ export const Profile = () => {
     calculateStreak();
     calculateBadges();
   }, [workouts]);
+
+  useEffect(() => {
+    if (user && streak > 0) {
+      const saveStreak = async () => {
+        await setDoc(doc(db, 'users', user.uid), {
+          streak: streak,
+          lastStreakUpdate: new Date()
+        }, { merge: true });
+      };
+      saveStreak();
+    }
+  }, [streak, user]);
 
   const loadUserGoals = async () => {
     if (!user) return;
@@ -179,6 +193,20 @@ export const Profile = () => {
             <div>
               <h2 className="text-xl font-bold text-gray-800">{user?.displayName}</h2>
               <p className="text-gray-600">{user?.email}</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Social Stats */}
+        <div className="bg-white  rounded-xl shadow-sm p-4 mb-6">
+          <div className="flex justify-around">
+            <div className="text-center">
+              <p className="text-2xl font-bold text-gray-800 ">{followers.length}</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">{t('followers')}</p>
+            </div>
+            <div className="text-center">
+              <p className="text-2xl font-bold text-gray-800 ">{following.length}</p>
+              <p className="text-sm text-gray-500 ">{t('following')}</p>
             </div>
           </div>
         </div>

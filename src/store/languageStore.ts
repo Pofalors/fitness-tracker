@@ -35,6 +35,10 @@ export const translations = {
     errorTraining: 'Η προπόνηση πρέπει να έχει διάρκεια',
     success: 'Η προπόνηση καταγράφηκε επιτυχώς!',
     error: 'Υπήρξε ένα σφάλμα. Προσπάθησε ξανά.',
+    followers: 'Ακόλουθοι',
+    following: 'Ακολουθείτε',
+    addComment: 'Προσθήκη σχολίου...',
+    post: 'Δημοσίευση',
 
     // Login
     loginMessage: 'Παρακολούθησε τις προπονήσεις σου και πέτυχε τους στόχους σου!',
@@ -135,6 +139,10 @@ export const translations = {
     errorTraining: 'The training must have duration',
     success: 'Workout logged successfully!',
     error: 'An error occurred. Please try again.',
+    followers: 'Followers',
+    following: 'Following',
+    addComment: 'Add comment...',
+    post: 'Post',
 
     // Login
     loginMessage: 'Track your workouts and achieve your goals!',
