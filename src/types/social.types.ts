@@ -5,6 +5,7 @@ export interface Follow {
 }
 
 export interface Like {
+  id?: string;
   workoutId: string;
   userId: string;
   createdAt: Date;

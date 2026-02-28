@@ -8,6 +8,7 @@ import { WorkoutSkeleton } from '../components/common/LoadingSkeleton';
 import { useTranslation } from '../store/languageStore';
 import { useSocialStore } from '../store/socialStore';
 import { useAuthStore } from '../store/authStore';
+import { LikesPreview } from '../components/social/LikesPreview';
 
 export const History = () => {
   const navigate = useNavigate();
@@ -187,28 +188,29 @@ export const History = () => {
                 </div>
 
                 {/* Social Actions */}
-                <div className="flex items-center gap-4 mt-4 pt-4 border-t border-gray-200 ">
-                  <button
-                    onClick={async () => {
-                      const hasLiked = likes.some(l => l.workoutId === workout.id);
-                      if (hasLiked) {
-                        unlikeWorkout(workout.id!);
-                      } else {
-                        likeWorkout(workout.id!);
-                      }
-                      if (user) {
-                        await useSocialStore.getState().fetchSocialData(user.uid);
-                      }
-                    }}
-                    className={`flex items-center gap-1 text-sm ${
-                      likes.some(l => l.workoutId === workout.id)
-                        ? 'text-red-500'
-                        : 'text-gray-500  hover:text-red-500'
-                    }`}
-                  >
-                    <span>❤️</span>
-                    <span>{likes.filter(l => l.workoutId === workout.id).length}</span>
-                  </button>
+                <div className="flex items-center gap-4 mt-4 pt-4 border-t border-gray-200">
+                <LikesPreview workoutId={workout.id!} />
+                
+                <button
+                  onClick={async () => {
+                    const hasLiked = likes.some(l => l.workoutId === workout.id);
+                    if (hasLiked) {
+                      unlikeWorkout(workout.id!);
+                    } else {
+                      likeWorkout(workout.id!);
+                    }
+                    if (user) {
+                      await useSocialStore.getState().fetchSocialData(user.uid);
+                    }
+                  }}
+                  className={`flex items-center gap-1 text-sm ${
+                    likes.some(l => l.workoutId === workout.id)
+                      ? 'text-red-500'
+                      : 'text-gray-500 hover:text-red-500'
+                  }`}
+                >
+                  <span>❤️</span>
+                </button>
                   
                   <button
                     onClick={() => setShowComments(workout.id!)}

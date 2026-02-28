@@ -103,13 +103,6 @@ export const useSocialStore = create<SocialStore>((set, get) => ({
           });
         }
       }
-      // ΑΝΤΙ ΓΙΑ fetchSocialData, κάνε update το state manually
-      const newLike = {
-        id: 'temp-' + Date.now(), // προσωρινό id
-        workoutId,
-        userId: currentUser.uid,
-        createdAt: new Date()
-      };
       
       set((state) => ({
         likes: [...state.likes, {
@@ -216,8 +209,35 @@ export const useSocialStore = create<SocialStore>((set, get) => ({
             createdAt: data.createdAt?.toDate() || new Date()
         } as Follow;
         });
-      
-      set({ followers, following, loading: false });
+        
+        //Fetch likes
+        const likesQuery = query(collection(db, 'likes'));
+        const likesSnap = await getDocs(likesQuery);
+        const likes = likesSnap.docs.map(doc => {
+          const data = doc.data();
+          return {
+            id: doc.id,
+            workoutId: data.workoutId,
+            userId: data.userId,
+            createdAt: data.createdAt?.toDate() || new Date()
+          } as Like;
+        });
+        
+        //Fetch comments
+        const commentsQuery = query(collection(db, 'comments'));
+        const commentsSnap = await getDocs(commentsQuery);
+        const comments = commentsSnap.docs.map(doc => {
+          const data = doc.data();
+          return {
+            id: doc.id,
+            workoutId: data.workoutId,
+            userId: data.userId,
+            text: data.text,
+            createdAt: data.createdAt?.toDate() || new Date()
+          } as Comment;
+        });
+        
+        set({ followers, following, likes, comments, loading: false });
     } catch (error) {
       console.error('Error fetching social data:', error);
       set({ loading: false });
