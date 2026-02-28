@@ -81,6 +81,7 @@ export const translations = {
     other: 'Άλλο',
     saving: 'Αποθήκευση...',
     savedTraining: 'Η προπόνηση αποθηκεύτηκε επιτυχώς!',
+    unknownDate: 'Άγνωστη ημερομηνία',
 
     // Stopwatch
     start: 'Έναρξη',
@@ -219,6 +220,7 @@ export const translations = {
     other: 'Other',
     saving: 'Saving...',
     savedTraining: 'Workout saved successfully!',
+    unknownDate: 'Unknown date',
 
     // Stopwatch
     start: 'Start',

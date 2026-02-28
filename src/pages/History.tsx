@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useWorkoutStore } from '../store/workoutStore';
 import { format } from 'date-fns';
-import { el } from 'date-fns/locale';
+import { el, enUS } from 'date-fns/locale';
 import toast from 'react-hot-toast';
 import { WorkoutSkeleton } from '../components/common/LoadingSkeleton';
 import { useTranslation } from '../store/languageStore';
@@ -13,7 +13,7 @@ export const History = () => {
   const navigate = useNavigate();
   const { workouts, fetchUserWorkouts, loading } = useWorkoutStore();
   const [filter, setFilter] = useState<'all' | 'week' | 'month'>('all');
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
   const { likes, comments, likeWorkout, unlikeWorkout, addComment } = useSocialStore();
   const [showComments, setShowComments] = useState<string | null>(null);
   const [newComment, setNewComment] = useState<{[key: string]: string}>({});
@@ -44,25 +44,25 @@ export const History = () => {
   };
 
   const formatWorkoutDate = (date: any) => {
-    if (!date) return 'Άγνωστη ημερομηνία';
+    if (!date) return t('unknownDate');
     
     try {
-      // Αν το date είναι από Firebase (object με seconds)
       if (date.seconds) {
         const dateObj = new Date(date.seconds * 1000);
         if (isNaN(dateObj.getTime())) {
-          return 'Άγνωστη ημερομηνία';
+          return t('unknownDate');
         }
-        return format(dateObj, 'EEEE, d MMMM yyyy, HH:mm', { locale: el });
+        const locale = language === 'el' ? el : enUS;
+        return format(dateObj, 'EEEE, d MMMM yyyy, HH:mm', { locale });
       }
       const dateObj = new Date(date);
-      // Έλεγχος αν η ημερομηνία είναι valid
       if (isNaN(dateObj.getTime())) {
-        return 'Άγνωστη ημερομηνία';
+        return t('unknownDate');
       }
-      return format(dateObj, 'EEEE, d MMMM yyyy', { locale: el });
+      const locale = language === 'el' ? el : enUS;
+      return format(dateObj, 'EEEE, d MMMM yyyy', { locale });
     } catch {
-      return 'Άγνωστη ημερομηνία';
+      return t('unknownDate');
     }
   };
 

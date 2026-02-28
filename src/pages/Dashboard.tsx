@@ -178,7 +178,7 @@ export const Dashboard = () => {
                         </p>
                       </div>
                     </div>
-                    <p className="text-sm font-medium text-gray-700">
+                    <p className="text-sm font-medium text-gray-800">
                       {Math.floor(workout.duration / 60)} λεπτά
                     </p>
                   </div>
