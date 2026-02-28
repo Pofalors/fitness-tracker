@@ -473,7 +473,9 @@ export const Dashboard = () => {
           ) : (
             <div className="bg-white dark:bg-gray-800 rounded-xl p-8 text-center text-gray-500 dark:text-gray-400">
               <p>{t('noFriends')}</p>
-              <button className="text-blue-500 hover:text-blue-600 text-sm font-medium mt-2">
+              <button
+                onClick={() => navigate('/search')}
+                className="text-blue-500 hover:text-blue-600 text-sm font-medium mt-2">
                 {t('findFriends')} →
               </button>
             </div>

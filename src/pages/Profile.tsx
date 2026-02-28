@@ -283,6 +283,16 @@ export const Profile = () => {
           </div>
         </div>
 
+        {/* Find friends */}
+        <div className="bg-white  rounded-xl shadow-sm p-6 mb-6">
+          <button
+            onClick={() => navigate('/search')}
+            className="w-full text-left px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+          >
+            🔍 {t('findFriends')}
+          </button>
+        </div>
+
         {/* Social Stats */}
         <div className="bg-white  rounded-xl shadow-sm p-4 mb-6">
           <div className="flex justify-around">

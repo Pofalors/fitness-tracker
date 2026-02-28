@@ -13,6 +13,9 @@ import { InstallPrompt } from './components/common/InstallPrompt';
 import { ErrorBoundary } from './components/common/ErrorBoundary';
 import { useLocation } from 'react-router-dom';
 import { initAnalytics, pageView } from './services/analytics';
+import { UserProfile } from './pages/UserProfile';
+import { UserSearch } from './components/social/UserSearch';
+import { Search } from './pages/Search';
 
 // Component για redirect μετά το login
 const AuthRedirect = ({ children }: { children: React.ReactNode }) => {
@@ -122,6 +125,22 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Statistics />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/profile/:userId"
+              element={
+                <ProtectedRoute>
+                  <UserProfile />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/search"
+              element={
+                <ProtectedRoute>
+                  <Search />
                 </ProtectedRoute>
               }
             />

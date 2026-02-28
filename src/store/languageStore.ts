@@ -150,6 +150,14 @@ export const translations = {
     bioPlaceholder: 'Γράψε λίγα λόγια για εσένα...',
     noBio: 'Δεν υπάρχει βιογραφικό ακόμα...',
     saveError: 'Σφάλμα στην αποθήκευση',
+    searchPlaceholder: 'Αναζήτηση με email ή όνομα...',
+    search: 'Αναζήτηση',
+    searchError: 'Σφάλμα αναζήτησης',
+    noUsersFound: 'Δεν βρέθηκαν χρήστες',
+    unfollow: 'Ακολουθείς',
+    follow: 'Ακολούθησε',
+    totalMinutes: 'Σύνολο λεπτών',
+    totalDistance: 'Σύνολο χλμ',
 
     // Challenges
     challenges: 'Προκλήσεις',
@@ -307,6 +315,14 @@ export const translations = {
     bioPlaceholder: 'Write something about yourself...',
     noBio: 'No bio yet...',
     saveError: 'Error saving bio. Please try again.',
+    searchPlaceholder: 'Search by email or name...',
+    search: 'Search',
+    searchError: 'Error searching users. Please try again.',
+    noUsersFound: 'No users found',
+    unfollow: 'Following',
+    follow: 'Follow',
+    totalMinutes: 'Total minutes',
+    totalDistance: 'Total km',
 
     // Challenges
     challenges: 'Challenges',
