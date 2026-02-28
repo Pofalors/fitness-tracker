@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserSearch } from '../components/social/UserSearch';
 import { useTranslation } from '../store/languageStore';
+import { SuggestedUsers } from '../components/social/SuggestedUsers';
 
 export const Search = () => {
   const navigate = useNavigate();
@@ -27,6 +28,9 @@ export const Search = () => {
 
       <main className="max-w-3xl mx-auto px-4 py-8">
         <UserSearch />
+        <div className="mt-6">
+          <SuggestedUsers />
+        </div>
       </main>
     </div>
   );

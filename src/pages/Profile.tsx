@@ -11,6 +11,7 @@ import { LanguageToggle } from '../components/settings/LanguageToggle';
 import { useTranslation } from '../store/languageStore';
 import { useSocialStore } from '../store/socialStore';
 import { ChallengesList } from '../components/challenges/ChallengesList';
+import { FollowList } from '../components/social/FollowList';
 
 interface UserGoals {
   weeklyWorkouts: number;
@@ -27,6 +28,8 @@ export const Profile = () => {
   const [isEditingBio, setIsEditingBio] = useState(false);
   const [bio, setBio] = useState('');
   const [tempBio, setTempBio] = useState('');
+  const [showFollowers, setShowFollowers] = useState(false);
+  const [showFollowing, setShowFollowing] = useState(false);
   
   const [goals, setGoals] = useState<UserGoals>({
     weeklyWorkouts: 3,
@@ -296,16 +299,39 @@ export const Profile = () => {
         {/* Social Stats */}
         <div className="bg-white  rounded-xl shadow-sm p-4 mb-6">
           <div className="flex justify-around">
-            <div className="text-center">
+            <button 
+              onClick={() => setShowFollowers(true)}
+              className="text-center hover:opacity-80 transition-opacity"
+            >
               <p className="text-2xl font-bold text-gray-800 ">{followers.length}</p>
               <p className="text-sm text-gray-500 dark:text-gray-400">{t('followers')}</p>
-            </div>
-            <div className="text-center">
+            </button>
+            <button 
+              onClick={() => setShowFollowing(true)}
+              className="text-center hover:opacity-80 transition-opacity"
+            >
               <p className="text-2xl font-bold text-gray-800 ">{following.length}</p>
-              <p className="text-sm text-gray-500 ">{t('following')}</p>
-            </div>
+              <p className="text-sm text-gray-500 dark:text-gray-400">{t('following')}</p>
+            </button>
           </div>
         </div>
+
+        {/* Modals */}
+        {showFollowers && (
+          <FollowList 
+            type="followers" 
+            userId={user?.uid || ''} 
+            onClose={() => setShowFollowers(false)} 
+          />
+        )}
+
+        {showFollowing && (
+          <FollowList 
+            type="following" 
+            userId={user?.uid || ''} 
+            onClose={() => setShowFollowing(false)} 
+          />
+        )}
 
         {/* Stats Card */}
         <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl shadow-sm p-6 mb-6 text-white">

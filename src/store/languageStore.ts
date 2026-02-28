@@ -151,6 +151,8 @@ export const translations = {
     noBio: 'Δεν υπάρχει βιογραφικό ακόμα...',
     saveError: 'Σφάλμα στην αποθήκευση',
     searchPlaceholder: 'Αναζήτηση με email ή όνομα...',
+
+    // Social
     search: 'Αναζήτηση',
     searchError: 'Σφάλμα αναζήτησης',
     noUsersFound: 'Δεν βρέθηκαν χρήστες',
@@ -158,6 +160,11 @@ export const translations = {
     follow: 'Ακολούθησε',
     totalMinutes: 'Σύνολο λεπτών',
     totalDistance: 'Σύνολο χλμ',
+    noSuggestions: 'Δεν υπάρχουν προτάσεις',
+    suggestedForYou: 'Προτεινόμενοι για εσένα',
+    followed: 'Ακολούθησες',
+    noFollowers: 'Δεν υπάρχουν ακόλουθοι',
+    noFollowing: 'Δεν ακολουθείς κανέναν',
 
     // Challenges
     challenges: 'Προκλήσεις',
@@ -316,6 +323,8 @@ export const translations = {
     noBio: 'No bio yet...',
     saveError: 'Error saving bio. Please try again.',
     searchPlaceholder: 'Search by email or name...',
+
+    // Social
     search: 'Search',
     searchError: 'Error searching users. Please try again.',
     noUsersFound: 'No users found',
@@ -323,6 +332,11 @@ export const translations = {
     follow: 'Follow',
     totalMinutes: 'Total minutes',
     totalDistance: 'Total km',
+    noSuggestions: 'No suggestions available',
+    suggestedForYou: 'Suggested for you',
+    followed: 'You followed',
+    noFollowers: 'No followers yet',
+    noFollowing: 'Not following anyone yet',
 
     // Challenges
     challenges: 'Challenges',
