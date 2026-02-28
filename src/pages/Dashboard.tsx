@@ -15,7 +15,7 @@ export const Dashboard = () => {
   const { workouts, fetchUserWorkouts } = useWorkoutStore();
   const { challenges, fetchChallenges } = useChallengeStore();
   const { followers, following, fetchSocialData } = useSocialStore();
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
   const { theme, applyTheme } = useTheme();
   const [weeklyGoal, setWeeklyGoal] = useState(5);
   const [friends, setFriends] = useState<any[]>([]);
@@ -105,7 +105,7 @@ export const Dashboard = () => {
     if (workouts.length >= 1) {
       achievements.push({
         id: 'first',
-        name: 'Πρωτάρης',
+        name: t('firstWorkout'),
         icon: '🎯',
         unlocked: true,
         date: workouts[0]?.date
@@ -115,7 +115,7 @@ export const Dashboard = () => {
     if (workouts.length >= 5) {
       achievements.push({
         id: 'athlete',
-        name: 'Αθλητής',
+        name: t('athlete'),
         icon: '💪',
         unlocked: true,
         date: workouts[4]?.date
@@ -125,7 +125,7 @@ export const Dashboard = () => {
     if (workouts.length >= 10) {
       achievements.push({
         id: 'champion',
-        name: 'Πρωταθλητής',
+        name: t('champion'),
         icon: '🏆',
         unlocked: true,
         date: workouts[9]?.date
@@ -137,7 +137,7 @@ export const Dashboard = () => {
       const runningWorkout = workouts.find(w => w.type === 'running');
       achievements.push({
         id: 'runner',
-        name: 'Δρομέας',
+        name: t('runner'),
         icon: '🏃',
         unlocked: true,
         date: runningWorkout?.date
@@ -149,7 +149,7 @@ export const Dashboard = () => {
       const yogaWorkout = workouts.find(w => w.type === 'yoga');
       achievements.push({
         id: 'yogi',
-        name: 'Γιόγκι',
+        name: t('yogi'),
         icon: '🧘',
         unlocked: true,
         date: yogaWorkout?.date
@@ -521,6 +521,14 @@ export const Dashboard = () => {
                 
                 const isValidDate = !isNaN(dateObj.getTime());
                 
+                const workoutTypeMap: { [key: string]: string } = {
+                  running: t('running'),
+                  gym: t('gym'),
+                  yoga: t('yoga'),
+                  walking: t('walking'),
+                  other: t('other')
+                };
+                
                 return (
                   <div key={workout.id} className="bg-white rounded-xl shadow-sm p-4">
                     <div className="flex items-center justify-between">
@@ -534,19 +542,15 @@ export const Dashboard = () => {
                         </span>
                         <div>
                           <p className="font-medium text-gray-800">
-                            {workout.type === 'running' && 'Τρέξιμο'}
-                            {workout.type === 'gym' && 'Γυμναστική'}
-                            {workout.type === 'yoga' && 'Γιόγκα'}
-                            {workout.type === 'walking' && 'Περπάτημα'}
-                            {workout.type === 'other' && 'Προπόνηση'}
+                            {workoutTypeMap[workout.type] || t('other')}
                           </p>
                           <p className="text-xs text-gray-500">
-                            {isValidDate ? dateObj.toLocaleDateString('el-GR') : 'Άγνωστη ημερομηνία'}
+                            {isValidDate ? dateObj.toLocaleDateString(language === 'el' ? 'el-GR' : 'en-US') : t('unknownDate')}
                           </p>
                         </div>
                       </div>
                       <p className="text-sm font-medium text-gray-800">
-                        {Math.floor(workout.duration / 60)} {t('mins')}
+                        {Math.floor(workout.duration / 60)} {t('minutes')}
                       </p>
                     </div>
                   </div>
@@ -558,7 +562,7 @@ export const Dashboard = () => {
                   onClick={() => navigate('/history')}
                   className="w-full text-center text-sm text-blue-600 hover:text-blue-800 mt-2"
                 >
-                  Δες όλες ({workouts.length} προπονήσεις)
+                  {t('viewAll')} ({workouts.length})
                 </button>
               )}
             </div>

@@ -81,6 +81,10 @@ export const translations = {
     firstWorkout: 'Πρώτη προπόνηση',
     workouts: 'προπονήσεις',
     newQuote: 'Νέο απόφθεγμα',
+    athlete: 'Αθλητής',
+    champion: 'Πρωταθλητής',
+    runner: 'Δρομέας',
+    yogi: 'Γιόγκι',
     
     // Track Workout
     workoutType: 'Τύπος Προπόνησης',
@@ -234,6 +238,10 @@ export const translations = {
     firstWorkout: 'First workout',
     workouts: 'workouts',
     newQuote: 'New quote',
+    athlete: 'Athlete',
+    champion: 'Champion',
+    runner: 'Runner',
+    yogi: 'Yogi',
     
     // Track Workout
     workoutType: 'Workout Type',
