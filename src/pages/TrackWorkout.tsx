@@ -20,7 +20,6 @@ export const TrackWorkout = () => {
   
   const [formData, setFormData] = useState({
     type: 'running' as WorkoutType,
-    date: new Date().toISOString().split('T')[0],
     duration: 0,
     distance: '',
     notes: ''
@@ -35,15 +34,25 @@ export const TrackWorkout = () => {
     }
 
     try {
-      await addWorkout({
-        ...formData,
+      const workoutData: any = {
+        type: formData.type,
         duration: formData.duration,
-        distance: formData.distance ? parseFloat(formData.distance) : undefined
-      });
+        notes: formData.notes
+      };
+
+      if (formData.distance && formData.distance.trim() !== '') {
+        const distanceValue = parseFloat(formData.distance);
+        if (!isNaN(distanceValue) && distanceValue > 0) {
+          workoutData.distance = distanceValue;
+        }
+      }
+
+      await addWorkout(workoutData);
       
       toast.success(t('success'));
       navigate('/');
     } catch (error) {
+      console.error('Error:', error);
       toast.error(t('error'));
     }
   };
@@ -105,18 +114,6 @@ export const TrackWorkout = () => {
             </div>
           </div>
 
-          <div className="bg-white  rounded-xl shadow-sm p-6">
-            <label className="block text-sm font-medium text-gray-800  mb-2">
-              {t('date')}
-            </label>
-            <input
-              type="date"
-              value={formData.date}
-              onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-              className="w-full p-3 border border-gray-300  bg-white  text-gray-800  rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
-          </div>
-
           {(formData.type === 'running' || formData.type === 'walking') && (
             <div className="bg-white  rounded-xl shadow-sm p-6">
               <label className="block text-sm font-medium text-gray-800  mb-2">
@@ -128,7 +125,7 @@ export const TrackWorkout = () => {
                 min="0"
                 value={formData.distance}
                 onChange={(e) => setFormData({ ...formData, distance: e.target.value })}
-                className="w-full p-3 border border-gray-300  bg-white  text-gray-900  rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full p-3 border border-gray-300  bg-white  text-gray-800  rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder={t('distancePlaceholder')}
               />
             </div>

@@ -25,7 +25,7 @@ export const useWorkoutStore = create<WorkoutStore>((set) => ({
       const workout: Omit<Workout, 'id'> = {
         ...workoutData,
         userId: user.uid,
-        date: new Date(workoutData.date),
+        date: new Date(),
         createdAt: new Date()
       };
       

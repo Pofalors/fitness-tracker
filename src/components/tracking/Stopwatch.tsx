@@ -63,6 +63,7 @@ export const Stopwatch: React.FC<StopwatchProps> = ({ onTimeUpdate }) => {
         
         <div className="flex justify-center gap-3">
           <button
+            type="button"
             onClick={toggleTimer}
             className={`px-6 py-3 rounded-lg font-medium transition-colors ${
               isActive 
@@ -74,6 +75,7 @@ export const Stopwatch: React.FC<StopwatchProps> = ({ onTimeUpdate }) => {
           </button>
           
           <button
+            type="button"
             onClick={resetTimer}
             className="px-6 py-3 bg-gray-500 hover:bg-gray-600 text-white rounded-lg font-medium transition-colors"
           >

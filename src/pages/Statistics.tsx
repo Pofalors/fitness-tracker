@@ -29,13 +29,22 @@ export const Statistics = () => {
   const totalMinutes = Math.floor(workouts.reduce((acc, w) => acc + w.duration, 0) / 60);
   const totalDistance = workouts.reduce((acc, w) => acc + (w.distance || 0), 0);
   const avgDuration = totalWorkouts > 0 ? Math.floor(totalMinutes / totalWorkouts) : 0;
-  const longestWorkout = workouts.reduce((max, w) => Math.max(max, w.duration), 0);
-  const longestDistance = workouts.reduce((max, w) => Math.max(max, w.distance || 0), 0);
 
   const workoutsByType = workouts.reduce((acc: any, workout) => {
+    if (!workout || !workout.type) return acc;
     acc[workout.type] = (acc[workout.type] || 0) + 1;
     return acc;
   }, {});
+
+  const longestWorkout = workouts.reduce((max, w) => {
+    if (!w || !w.duration) return max;
+    return Math.max(max, w.duration);
+  }, 0);
+
+  const longestDistance = workouts.reduce((max, w) => {
+    if (!w || !w.distance) return max;
+    return Math.max(max, w.distance);
+  }, 0);
 
   const pieData = Object.keys(workoutsByType).map(key => ({
     name: key === 'running' ? t('running') :
@@ -57,9 +66,17 @@ export const Statistics = () => {
     
     return days.map(day => {
       const dayStr = format(day, 'yyyy-MM-dd');
-      const dayWorkouts = workouts.filter(w => 
-        format(new Date(w.date), 'yyyy-MM-dd') === dayStr
-      );
+      const dayWorkouts = workouts.filter(w => {
+        if (!w.date) return false;
+        
+        try {
+          const workoutDate = new Date(w.date);
+          if (isNaN(workoutDate.getTime())) return false;
+          return format(workoutDate, 'yyyy-MM-dd') === dayStr;
+        } catch {
+          return false;
+        }
+      });
       
       return {
         date: format(day, 'EEE dd', { locale }),
@@ -100,7 +117,7 @@ export const Statistics = () => {
                 className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                   timeRange === range.value
                     ? 'bg-blue-500 text-white'
-                    : 'bg-gray-100  text-gray-700  hover:bg-gray-200 '
+                    : 'bg-gray-100  text-gray-800  hover:bg-gray-200 '
                 }`}
               >
                 {range.label}
@@ -141,7 +158,7 @@ export const Statistics = () => {
           {/* Bar Chart */}
           <div className="bg-white  rounded-xl shadow-sm p-6">
             <h3 className="font-semibold text-gray-800  mb-4">{t('workoutsPerDay')}</h3>
-            <div className="h-64">
+            <div className="h-64 w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={barData}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#374151" />

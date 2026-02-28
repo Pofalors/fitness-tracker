@@ -88,21 +88,38 @@ export const useSocialStore = create<SocialStore>((set, get) => ({
       
       await addDoc(collection(db, 'likes'), like);
 
-      // ΠΡΟΣΘΕΣΕ NOTIFICATION
       const workoutRef = doc(db, 'workouts', workoutId);
       const workoutSnap = await getDoc(workoutRef);
       
       if (workoutSnap.exists()) {
         const workoutData = workoutSnap.data();
-        await useNotificationStore.getState().addNotification({
-          userId: workoutData.userId,
-          fromUserId: currentUser.uid,
-          type: 'like',
-          message: `${currentUser.displayName || 'Κάποιος'} του άρεσε η προπόνησή σου`,
-          link: '/history'
-        });
+        if (workoutData.userId !== currentUser.uid) {
+          await useNotificationStore.getState().addNotification({
+            userId: workoutData.userId,
+            fromUserId: currentUser.uid,
+            type: 'like',
+            message: `${currentUser.displayName || 'Κάποιος'} του άρεσε η προπόνησή σου`,
+            link: '/history'
+          });
+        }
       }
-      await get().fetchSocialData(currentUser.uid);
+      // ΑΝΤΙ ΓΙΑ fetchSocialData, κάνε update το state manually
+      const newLike = {
+        id: 'temp-' + Date.now(), // προσωρινό id
+        workoutId,
+        userId: currentUser.uid,
+        createdAt: new Date()
+      };
+      
+      set((state) => ({
+        likes: [...state.likes, {
+          id: 'temp-' + Date.now(),
+          workoutId,
+          userId: currentUser.uid,
+          createdAt: new Date()
+        }]
+      }));
+      
     } catch (error) {
       console.error('Error liking workout:', error);
     }
@@ -124,7 +141,9 @@ export const useSocialStore = create<SocialStore>((set, get) => ({
         await deleteDoc(doc.ref);
       });
       
-      await get().fetchSocialData(currentUser.uid);
+      set((state) => ({
+        likes: state.likes.filter(l => !(l.workoutId === workoutId && l.userId === currentUser.uid))
+      }));
     } catch (error) {
       console.error('Error unliking workout:', error);
     }
@@ -142,8 +161,22 @@ export const useSocialStore = create<SocialStore>((set, get) => ({
         createdAt: new Date()
       };
       
-      await addDoc(collection(db, 'comments'), comment);
-      await get().fetchSocialData(currentUser.uid);
+      const docRef = await addDoc(collection(db, 'comments'), comment);
+    
+      const newComment = {
+        id: docRef.id,
+        ...comment
+      };
+      
+      set((state) => ({
+        comments: [...state.comments, {
+          id: docRef.id,
+          workoutId,
+          userId: currentUser.uid,
+          text,
+          createdAt: new Date()
+        }]
+      }));
     } catch (error) {
       console.error('Error adding comment:', error);
     }

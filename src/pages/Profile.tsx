@@ -420,7 +420,7 @@ export const Profile = () => {
           )}
         </div>
 
-        {/* ΝΕΟ SECTION: Challenges */}
+        {/*Challenges */}
         <div className="mt-6 bg-white  rounded-xl shadow-sm p-6">
           <ChallengesList />
         </div>

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useChallengeStore } from '../../store/challengeStore';
 import { useTranslation } from '../../store/languageStore';
 import type { ChallengeType } from '../../types/challenge.types';
+import toast from 'react-hot-toast';
 
 export const ChallengesList = () => {
   const { t } = useTranslation();
@@ -74,6 +75,7 @@ export const ChallengesList = () => {
                     onClick={() => {
                     if (window.confirm(t('cancelConfirm'))) {
                         useChallengeStore.getState().cancelChallenge(challenge.id!);
+                        toast.success(t('cancelConfirmed'));
                     }
                     }}
                     className="text-xs px-2 py-1 bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-full hover:bg-red-200 dark:hover:bg-red-900/40 transition-colors"

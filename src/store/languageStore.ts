@@ -149,7 +149,7 @@ export const translations = {
     challengeStarted: 'Ξεκίνησες το challenge: ',
     cancelChallenge: 'Ακύρωση',
     cancelConfirm: 'Θα χάσεις όλη την πρόοδο του challenge. Συνέχεια;',
-    cancelConfirmed: '❌ Ακύρωσες το challenge',
+    cancelConfirmed: 'Ακύρωσες το challenge',
     challengeCompleted: '🎉 Ολοκλήρωσες το challenge: ',
     
     // Settings
@@ -287,7 +287,7 @@ export const translations = {
     challengeStarted: 'You joined the challenge: ',
     cancelChallenge: 'Cancel',
     cancelConfirm: 'You will lose all challenge progress. Continue?',
-    cancelConfirmed: '❌ You cancelled the challenge',
+    cancelConfirmed: 'You cancelled the challenge',
     challengeCompleted: '🎉 Challenge completed: ',
     
     // Settings
