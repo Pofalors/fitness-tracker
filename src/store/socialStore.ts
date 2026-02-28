@@ -32,22 +32,34 @@ export const useSocialStore = create<SocialStore>((set, get) => ({
     if (!currentUser) return;
     
     try {
-      const follow: Omit<Follow, 'id'> = {
-        userId,
-        followerId: currentUser.uid,
-        createdAt: new Date()
-      };
+      const q = query(
+        collection(db, 'follows'),
+        where('userId', '==', userId),
+        where('followerId', '==', currentUser.uid)
+      );
       
-      await addDoc(collection(db, 'follows'), follow);
-      //NOTIFICATION
-      await useNotificationStore.getState().addNotification({
-        userId: userId,
-        fromUserId: currentUser.uid,
-        type: 'follow',
-        message: `${currentUser.displayName || 'Κάποιος'} σε ακολούθησε`,
-        link: '/profile'
-      });
-      await get().fetchSocialData(currentUser.uid);
+      const existingFollow = await getDocs(q);
+      
+      if (existingFollow.empty) {
+        const follow: Omit<Follow, 'id'> = {
+          userId,
+          followerId: currentUser.uid,
+          createdAt: new Date()
+        };
+        
+        await addDoc(collection(db, 'follows'), follow);
+        
+        // NOTIFICATION ONLY FOR THE FIRST FOLLOW (NOT FOR EVERY FOLLOW)
+        await useNotificationStore.getState().addNotification({
+          userId: userId,
+          fromUserId: currentUser.uid,
+          type: 'follow',
+          message: `${currentUser.displayName || 'Κάποιος'} σε ακολούθησε`,
+          link: '/profile'
+        });
+        
+        await get().fetchSocialData(currentUser.uid);
+      }
     } catch (error) {
       console.error('Error following user:', error);
     }
