@@ -104,7 +104,7 @@ export const Statistics = () => {
       </header>
 
       <main className="max-w-6xl mx-auto px-4 py-8">
-        <div className="bg-white  rounded-xl shadow-sm p-4 mb-6">
+        <div className="card p-4 mb-6">
           <div className="flex gap-2">
             {[
               { value: 'week', label: t('week') },
@@ -114,10 +114,10 @@ export const Statistics = () => {
               <button
                 key={range.value}
                 onClick={() => setTimeRange(range.value as any)}
-                className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                className={`px-4 py-2 rounded-lg font-medium transition-all touch-feedback ${
                   timeRange === range.value
-                    ? 'bg-blue-500 text-white'
-                    : 'bg-gray-100  text-gray-800  hover:bg-gray-200 '
+                    ? 'btn-primary !px-4 !py-2'
+                    : 'btn-secondary !px-4 !py-2'
                 }`}
               >
                 {range.label}
@@ -128,36 +128,33 @@ export const Statistics = () => {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-          <div className="bg-white  rounded-xl shadow-sm p-6">
-            <div className="text-3xl mb-2">📊</div>
-            <div className="text-sm text-gray-500 ">{t('total')}</div>
-            <div className="text-2xl font-bold text-gray-800 ">{totalWorkouts}</div>
+          <div className="card p-6">
+            <div className="text-3xl mb-2 opacity-80">📊</div>
+            <p className="stat-label">{t('total')}</p>
+            <p className="stat-value">{totalWorkouts}</p>
           </div>
-          
-          <div className="bg-white  rounded-xl shadow-sm p-6">
-            <div className="text-3xl mb-2">⏱️</div>
-            <div className="text-sm text-gray-500 ">{t('minutes')}</div>
-            <div className="text-2xl font-bold text-gray-800 ">{totalMinutes}</div>
+          <div className="card p-6">
+            <div className="text-3xl mb-2 opacity-80">⏱️</div>
+            <p className="stat-label">{t('minutes')}</p>
+            <p className="stat-value">{totalMinutes}</p>
           </div>
-          
-          <div className="bg-white  rounded-xl shadow-sm p-6">
-            <div className="text-3xl mb-2">📏</div>
-            <div className="text-sm text-gray-500 ">{t('kilometers')}</div>
-            <div className="text-2xl font-bold text-gray-800 ">{totalDistance.toFixed(1)}</div>
+          <div className="card p-6">
+            <div className="text-3xl mb-2 opacity-80">📏</div>
+            <p className="stat-label">{t('kilometers')}</p>
+            <p className="stat-value">{totalDistance.toFixed(1)}</p>
           </div>
-          
-          <div className="bg-white  rounded-xl shadow-sm p-6">
-            <div className="text-3xl mb-2">⏲️</div>
-            <div className="text-sm text-gray-500 ">{t('avgDuration')}</div>
-            <div className="text-2xl font-bold text-gray-800 ">{avgDuration}{t('min')}</div>
+          <div className="card p-6">
+            <div className="text-3xl mb-2 opacity-80">⏲️</div>
+            <p className="stat-label">{t('avgDuration')}</p>
+            <p className="stat-value">{avgDuration}{t('min')}</p>
           </div>
         </div>
 
         {/* Charts */}
         <div className="grid md:grid-cols-2 gap-6">
           {/* Bar Chart */}
-          <div className="bg-white  rounded-xl shadow-sm p-6">
-            <h3 className="font-semibold text-gray-800  mb-4">{t('workoutsPerDay')}</h3>
+          <div className="card p-6">
+            <h3 className="section-title !mb-4">{t('workoutsPerDay')}</h3>
             <div className="h-64 w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={barData}>
@@ -179,8 +176,8 @@ export const Statistics = () => {
           </div>
 
           {/* Pie Chart */}
-          <div className="bg-white  rounded-xl shadow-sm p-6">
-            <h3 className="font-semibold text-gray-800  mb-4">{t('workoutTypes')}</h3>
+          <div className="card p-6">
+            <h3 className="section-title !mb-4">{t('workoutTypes')}</h3>
             <div className="h-64">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
@@ -214,7 +211,7 @@ export const Statistics = () => {
 
         {/* Personal Records */}
         {workouts.length > 0 && (
-          <div className="mt-8 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-xl shadow-sm p-6 text-white">
+          <div className="mt-8 card-gradient bg-gradient-to-r from-yellow-500 to-orange-500 p-6 text-white">
             <h3 className="font-bold text-lg mb-4">🏆 {t('personalRecords')}</h3>
             <div className="grid grid-cols-2 gap-4">
               <div>

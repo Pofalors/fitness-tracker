@@ -5,6 +5,7 @@
 @layer base {
   body {
     @apply bg-gray-50 text-gray-900 antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
   }
 
   /* Dark mode */
@@ -47,38 +48,114 @@
   .dark .stat-card {
     @apply bg-gradient-to-br from-gray-800 to-gray-700 border-gray-700;
   }
+  
   .dark .bg-gray-200 {
     @apply bg-gray-700;
   }
 }
 
 @layer components {
+  /* Ομοιόμορφο card component - το βασικό στυλ για όλα τα cards */
   .card {
-    @apply bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300;
+    @apply bg-white dark:bg-gray-800 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100/50 dark:border-gray-700/50;
   }
   
+  /* Gradient cards για έμφαση (challenges, stats) */
+  .card-gradient {
+    @apply rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 text-white relative overflow-hidden;
+  }
+  
+  /* Glass effect για modals/sheets */
+  .glass {
+    @apply bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl border border-white/20 dark:border-gray-700/30;
+  }
+  
+  /* Κουμπιά με ομοιόμορφο στυλ */
   .btn-primary {
-    @apply bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-3 rounded-xl 
-           font-medium hover:from-blue-600 hover:to-blue-700 transition-all duration-300
-           shadow-md hover:shadow-lg transform hover:-translate-y-0.5;
+    @apply bg-gradient-to-r from-blue-600 to-blue-500 text-white px-6 py-3 rounded-xl 
+           font-medium hover:from-blue-700 hover:to-blue-600 transition-all duration-300 
+           shadow-md hover:shadow-lg active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
   }
   
   .btn-secondary {
-    @apply bg-gray-100 text-gray-700 px-6 py-3 rounded-xl font-medium 
-           hover:bg-gray-200 transition-all duration-300;
+    @apply bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-6 py-3 rounded-xl 
+           font-medium hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-300 
+           active:scale-95;
   }
   
   .stat-card {
-    @apply bg-gradient-to-br from-white to-gray-50 rounded-2xl p-6 
-           border border-gray-100 shadow-sm;
+    @apply bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-700 rounded-2xl p-6 
+           border border-gray-100 dark:border-gray-700 shadow-sm;
   }
   
   .gradient-bg {
     @apply bg-gradient-to-br from-blue-600 via-purple-600 to-pink-500;
   }
+  
+  /* Stats numbers */
+  .stat-value {
+    @apply text-3xl font-bold text-gray-900 dark:text-white;
+  }
+  
+  .stat-label {
+    @apply text-sm text-gray-500 dark:text-gray-400;
+  }
+  
+  /* Section titles */
+  .section-title {
+    @apply text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4 flex items-center gap-2;
+  }
+  
+  .section-title::before {
+    content: '';
+    @apply w-1 h-6 bg-blue-500 rounded-full;
+  }
 }
 
 @layer utilities {
+  /* Custom animations */
+  @keyframes slide-up {
+    from {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slide-down {
+    from {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes scale-in {
+    from {
+      transform: scale(0.95);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  
   .animate-float {
     animation: float 3s ease-in-out infinite;
   }
@@ -98,21 +175,43 @@
   }
   
   .glass-effect {
-    @apply bg-white/80 backdrop-blur-lg border border-white/20;
+    @apply bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg border border-white/20 dark:border-gray-700/30;
   }
-}
-
-@keyframes slide-up {
-  from {
-    transform: translateY(100%);
-    opacity: 0;
+  
+  .animate-slide-up {
+    animation: slide-up 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
-  to {
-    transform: translateY(0);
-    opacity: 1;
+  
+  .animate-slide-down {
+    animation: slide-down 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
-}
-
-.animate-slide-up {
-  animation: slide-up 0.3s ease-out;
+  
+  .animate-fade-in {
+    animation: fade-in 0.2s ease-out;
+  }
+  
+  .animate-scale-in {
+    animation: scale-in 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  /* Smooth scrolling */
+  .smooth-scroll {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Hide scrollbar but keep functionality */
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Touch feedback */
+  .touch-feedback {
+    @apply active:scale-95 transition-transform duration-150;
+  }
 }

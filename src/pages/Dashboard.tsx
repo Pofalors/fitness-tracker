@@ -8,6 +8,7 @@ import { useTranslation } from '../store/languageStore';
 import { useTheme } from '../store/themeStore';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../config/firebase';
+import { NotificationBell } from '../components/notifications/NotificationBell';
 
 export const Dashboard = () => {
   const { user, logout } = useAuthStore();
@@ -51,7 +52,7 @@ export const Dashboard = () => {
           userId: follow.userId,
           name: userData?.displayName || 'Φίλος',
           photoURL: userData?.photoURL,
-          lastWorkout: workouts.find(w => w.userId === follow.userId) // Απλοποίηση
+          lastWorkout: workouts.find(w => w.userId === follow.userId)
         };
       })
     );
@@ -107,7 +108,6 @@ export const Dashboard = () => {
         id: 'first',
         name: t('firstWorkout'),
         icon: '🎯',
-        unlocked: true,
         date: workouts[0]?.date
       });
     }
@@ -117,7 +117,6 @@ export const Dashboard = () => {
         id: 'athlete',
         name: t('athlete'),
         icon: '💪',
-        unlocked: true,
         date: workouts[4]?.date
       });
     }
@@ -127,32 +126,27 @@ export const Dashboard = () => {
         id: 'champion',
         name: t('champion'),
         icon: '🏆',
-        unlocked: true,
         date: workouts[9]?.date
       });
     }
     
     const hasRunning = workouts.some(w => w.type === 'running');
     if (hasRunning) {
-      const runningWorkout = workouts.find(w => w.type === 'running');
       achievements.push({
         id: 'runner',
         name: t('runner'),
         icon: '🏃',
-        unlocked: true,
-        date: runningWorkout?.date
+        date: workouts.find(w => w.type === 'running')?.date
       });
     }
     
     const hasYoga = workouts.some(w => w.type === 'yoga');
     if (hasYoga) {
-      const yogaWorkout = workouts.find(w => w.type === 'yoga');
       achievements.push({
         id: 'yogi',
         name: t('yogi'),
         icon: '🧘',
-        unlocked: true,
-        date: yogaWorkout?.date
+        date: workouts.find(w => w.type === 'yoga')?.date
       });
     }
 
@@ -164,7 +158,7 @@ export const Dashboard = () => {
         
         if (dateValue?.seconds) {
           dateObj = new Date(dateValue.seconds * 1000);
-        } else {  
+        } else {
           dateObj = new Date(dateValue);
         }
         
@@ -192,63 +186,75 @@ export const Dashboard = () => {
     return icons[type as keyof typeof icons] || '📝';
   };
 
-  const quotes = [
-    {
-      text: "The only bad workout is the one that didn't happen.",
-      author: "Unknown"
-    },
-    {
-      text: "Your body can stand almost anything. It's your mind that you have to convince.",
-      author: "Unknown"
-    },
-    {
-      text: "The hard days are the best because that's when champions are made.",
-      author: "Gabby Douglas"
-    },
-    {
-      text: "Success is what comes after you stop making excuses.",
-      author: "Luis Guzman"
-    },
-    {
-      text: "The pain you feel today will be the strength you feel tomorrow.",
-      author: "Unknown"
-    },
-    {
-      text: "Μην περιμένεις να γίνεις τέλειος, απλά ξεκίνα.",
-      author: "Ελληνική παροιμία"
-    },
-    {
-      text: "Η αρχή είναι το ήμισυ του παντός.",
-      author: "Αριστοτέλης"
-    },
-    {
-      text: "Νους υγιής εν σώματι υγιεί.",
-      author: "Αρχαίο ρητό"
+  const formatDate = (date: any) => {
+    if (!date) return t('unknownDate');
+    
+    try {
+      let dateObj;
+      if (date?.seconds) {
+        dateObj = new Date(date.seconds * 1000);
+      } else {
+        dateObj = new Date(date);
+      }
+      
+      if (isNaN(dateObj.getTime())) {
+        return t('unknownDate');
+      }
+      
+      return dateObj.toLocaleDateString(language === 'el' ? 'el-GR' : 'en-US');
+    } catch {
+      return t('unknownDate');
     }
+  };
+
+  const workoutTypeMap: { [key: string]: string } = {
+    running: t('running'),
+    gym: t('gym'),
+    yoga: t('yoga'),
+    walking: t('walking'),
+    other: t('other')
+  };
+
+  const streak = calculateStreak();
+  const weekWorkouts = getWeekWorkouts();
+  const todayCount = workouts.filter(w => {
+    const today = new Date();
+    const workoutDate = new Date(w.date);
+    return workoutDate.toDateString() === today.toDateString();
+  }).length;
+
+  const quotes = [
+    { text: "The only bad workout is the one that didn't happen.", author: "Unknown" },
+    { text: "Your body can stand almost anything. It's your mind that you have to convince.", author: "Unknown" },
+    { text: "The hard days are the best because that's when champions are made.", author: "Gabby Douglas" },
+    { text: "Success is what comes after you stop making excuses.", author: "Luis Guzman" },
+    { text: "The pain you feel today will be the strength you feel tomorrow.", author: "Unknown" },
+    { text: "Μην περιμένεις να γίνεις τέλειος, απλά ξεκίνα.", author: "Ελληνική παροιμία" },
+    { text: "Η αρχή είναι το ήμισυ του παντός.", author: "Αριστοτέλης" },
+    { text: "Νους υγιής εν σώματι υγιεί.", author: "Αρχαίο ρητό" }
   ];
 
   const [quote, setQuote] = useState(quotes[0]);
 
   useEffect(() => {
-    // Τυχαίο quote σε κάθε refresh
     const randomIndex = Math.floor(Math.random() * quotes.length);
     setQuote(quotes[randomIndex]);
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <header className="glass border-b border-gray-200/50 dark:border-gray-700/50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-3">
               <span className="text-3xl">🏋️</span>
-              <h1 className="text-2xl font-bold">Fitness Tracker</h1>
+              <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-200">Fitness Tracker</h1>
             </div>
             
             <div className="flex items-center gap-4">
               {user && (
                 <>
-                  <div className="flex items-center gap-3 bg-white/20 rounded-full pl-2 pr-4 py-1">
+                  <div className="flex items-center gap-3 glass rounded-full pl-2 pr-4 py-1">
                     {user.photoURL ? (
                       <img 
                         src={user.photoURL} 
@@ -256,17 +262,17 @@ export const Dashboard = () => {
                         className="w-8 h-8 rounded-full border-2 border-white"
                       />
                     ) : (
-                      <div className="w-8 h-8 rounded-full bg-white/30 flex items-center justify-center">
+                      <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white">
                         {user.displayName?.[0] || 'U'}
                       </div>
                     )}
-                    <span className="text-sm font-medium hidden sm:inline">
+                    <span className="text-sm font-medium hidden sm:inline text-gray-700 dark:text-gray-300">
                       {user.displayName}
                     </span>
                   </div>
                   <button
                     onClick={logout}
-                    className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-full text-sm font-medium transition-colors"
+                    className="btn-secondary !px-4 !py-2"
                   >
                     {t('logout')}
                   </button>
@@ -277,121 +283,107 @@ export const Dashboard = () => {
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h2 className="text-2xl font-bold text-gray-800 mb-6">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-24 md:pb-8">
+        <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-6 animate-fade-in">
           {t('welcome')}, {user?.displayName?.split(' ')[0]}! 👋
         </h2>
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        {/* Σημερινές προπονήσεις */}
-        <div className="bg-white  rounded-xl shadow-sm p-6">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <p className="text-3xl font-bold text-gray-800 ">
-                {workouts.filter(w => {
-                  const today = new Date();
-                  const workoutDate = new Date(w.date);
-                  return workoutDate.toDateString() === today.toDateString();
-                }).length}
-              </p>
-              <p className="text-gray-500">{t('today')}</p>
+          <div className="card p-6 hover:scale-[1.02] transition-transform duration-300">
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <p className="stat-value">{todayCount}</p>
+                <p className="stat-label">{t('today')}</p>
+              </div>
+              <div className="text-4xl opacity-80">📊</div>
             </div>
-            <div className="text-4xl">📊</div>
-          </div>
-          <div className="h-2 bg-gray-200  rounded-full overflow-hidden">
-            <div 
-              className="h-full bg-gradient-to-r from-blue-500 to-blue-600 rounded-full transition-all duration-500"
-              style={{ width: `${Math.min((workouts.filter(w => {
-                const today = new Date();
-                const workoutDate = new Date(w.date);
-                return workoutDate.toDateString() === today.toDateString();
-              }).length / 3) * 100, 100)}%` }}
-            />
-          </div>
-        </div>
-        
-        {/* Streak ημερών */}
-        <div className="bg-white  rounded-xl shadow-sm p-6">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <p className="text-3xl font-bold text-gray-800 ">
-                {calculateStreak()}
-              </p>
-              <p className="text-gray-500">{t('streak')}</p>
-            </div>
-            <div className="text-4xl">🔥</div>
-          </div>
-          <div className="flex gap-1">
-            {[...Array(7)].map((_, i) => (
+            <div className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
               <div 
-                key={i} 
-                className={`h-2 flex-1 rounded-full transition-all duration-300 ${
-                  i < calculateStreak() ? 'bg-orange-400' : 'bg-gray-200 '
-                }`}
+                className="h-full bg-gradient-to-r from-blue-500 to-blue-600 rounded-full transition-all duration-500"
+                style={{ width: `${Math.min((todayCount / 3) * 100, 100)}%` }}
               />
-            ))}
-          </div>
-        </div>
-        
-        {/* Weekly Goal */}
-        <div className="bg-white  rounded-xl shadow-sm p-6">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <p className="text-3xl font-bold text-gray-800 ">
-                {getWeekWorkouts()} / {weeklyGoal}
-              </p>
-              <p className="text-gray-500 ">{t('weeklyGoal')}</p>
             </div>
-            <div className="text-4xl">🎯</div>
           </div>
-          <div className="h-2 bg-gray-200  rounded-full overflow-hidden">
-            <div 
-              className="h-full bg-gradient-to-r from-green-500 to-green-600 rounded-full transition-all duration-500"
-              style={{ width: `${Math.min((getWeekWorkouts() / weeklyGoal) * 100, 100)}%` }}
-            />
+          
+          <div className="card p-6 hover:scale-[1.02] transition-transform duration-300">
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <p className="stat-value">{streak}</p>
+                <p className="stat-label">{t('streak')}</p>
+              </div>
+              <div className="text-4xl opacity-80">🔥</div>
+            </div>
+            <div className="flex gap-1">
+              {[...Array(7)].map((_, i) => (
+                <div 
+                  key={i} 
+                  className={`h-2 flex-1 rounded-full transition-all duration-300 ${
+                    i < streak ? 'bg-orange-400' : 'bg-gray-200 dark:bg-gray-700'
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+          
+          <div className="card p-6 hover:scale-[1.02] transition-transform duration-300">
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <p className="stat-value">{weekWorkouts} / {weeklyGoal}</p>
+                <p className="stat-label">{t('weeklyGoal')}</p>
+              </div>
+              <div className="text-4xl opacity-80">🎯</div>
+            </div>
+            <div className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+              <div 
+                className="h-full bg-gradient-to-r from-green-500 to-green-600 rounded-full transition-all duration-500"
+                style={{ width: `${Math.min((weekWorkouts / weeklyGoal) * 100, 100)}%` }}
+              />
+            </div>
           </div>
         </div>
-      </div>
 
         {/* Active Challenges */}
-        <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">
-          🎯 {t('activeChallenges')}
-        </h3>
+        <h3 className="section-title">🎯 {t('activeChallenges')}</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
           {challenges.filter(c => c.status === 'active').map(challenge => {
             const progress = getChallengeProgress(challenge);
             const percent = Math.round((progress / challenge.goal) * 100);
             
             return (
-              <div key={challenge.id} className="bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl shadow-sm p-6 text-white">
-                <div className="flex items-start justify-between mb-3">
-                  <div>
-                    <span className="text-3xl">{challenge.icon}</span>
-                    <h4 className="font-bold mt-2">{challenge.title}</h4>
-                    <p className="text-sm opacity-90">{progress}/{challenge.goal} {t('days')}</p>
+              <div key={challenge.id} className="card-gradient bg-gradient-to-br from-purple-600 to-pink-600 p-6 hover:scale-[1.02] transition-transform duration-300">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-8 -mt-8"></div>
+                <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full -ml-8 -mb-8"></div>
+                
+                <div className="relative z-10">
+                  <div className="flex items-start justify-between mb-3">
+                    <div>
+                      <span className="text-3xl">{challenge.icon}</span>
+                      <h4 className="font-bold mt-2 text-white">{challenge.title}</h4>
+                      <p className="text-sm text-white/80">{progress}/{challenge.goal} {t('days')}</p>
+                    </div>
+                    <span className="text-xs bg-white/20 px-2 py-1 rounded-full text-white">{percent}%</span>
                   </div>
-                  <span className="text-xs bg-white/20 px-2 py-1 rounded-full">{percent}%</span>
+                  <div className="h-2 bg-white/20 rounded-full overflow-hidden">
+                    <div className="h-full bg-white rounded-full transition-all duration-500" style={{ width: `${percent}%` }} />
+                  </div>
+                  <button 
+                    onClick={() => navigate('/profile')}
+                    className="mt-4 text-sm bg-white/20 hover:bg-white/30 px-3 py-1 rounded-lg transition-colors text-white"
+                  >
+                    {t('viewProgress')} →
+                  </button>
                 </div>
-                <div className="h-2 bg-white/20 rounded-full overflow-hidden">
-                  <div className="h-full bg-white rounded-full" style={{ width: `${percent}%` }} />
-                </div>
-                <button 
-                  onClick={() => navigate('/profile')}
-                  className="mt-4 text-sm bg-white/20 hover:bg-white/30 px-3 py-1 rounded-lg transition-colors"
-                >
-                  {t('viewProgress')} →
-                </button>
               </div>
             );
           })}
           
           {challenges.filter(c => c.status === 'active').length === 0 && (
-            <div className="bg-white dark:bg-gray-800 rounded-xl p-8 text-center text-gray-500 dark:text-gray-400 col-span-2">
+            <div className="card p-8 text-center text-gray-500 dark:text-gray-400 col-span-2">
               <p className="mb-2">✨ {t('noActiveChallenges')}</p>
               <button 
                 onClick={() => navigate('/profile')}
-                className="text-blue-500 hover:text-blue-600 text-sm font-medium"
+                className="text-blue-500 hover:text-blue-600 text-sm font-medium transition-colors"
               >
                 {t('browseChallenges')} →
               </button>
@@ -400,56 +392,49 @@ export const Dashboard = () => {
         </div>
 
         {/* Recent Achievements */}
-        <div className="mt-8">
-          <h3 className="text-lg font-semibold text-gray-800  mb-4">
-            🏆 {t('recentAchievements')}
-          </h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            {getRecentAchievements().map(achievement => (
-              <div 
-                key={achievement.id} 
-                className="bg-gradient-to-br from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 p-4 rounded-xl text-center transform hover:scale-105 transition-all duration-300"
-              >
-                <span className="text-3xl block mb-2">{achievement.icon}</span>
-                <span className="text-sm font-medium text-gray-800 ">
-                  {achievement.name}
+        <h3 className="section-title">🏆 {t('recentAchievements')}</h3>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
+          {getRecentAchievements().map(achievement => (
+            <div 
+              key={achievement.id} 
+              className="card p-4 text-center hover:scale-105 transition-all duration-300 animate-fade-in"
+            >
+              <span className="text-3xl block mb-2">{achievement.icon}</span>
+              <span className="text-sm font-medium text-gray-800 dark:text-gray-200">
+                {achievement.name}
+              </span>
+              {achievement.dateObj && (
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                  {achievement.dateObj.toLocaleDateString(language === 'el' ? 'el-GR' : 'en-US')}
+                </p>
+              )}
+            </div>
+          ))}
+          
+          {getRecentAchievements().length === 0 && (
+            <>
+              <div className="card p-4 text-center opacity-50">
+                <span className="text-3xl block mb-2">🎯</span>
+                <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                  {t('firstWorkout')}
                 </span>
-                {achievement.dateObj && (
-                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                    {achievement.dateObj.toLocaleDateString()}
-                  </p>
-                )}
               </div>
-            ))}
-            
-            {/*Achievements placeholder */}
-            {getRecentAchievements().length === 0 && (
-              <>
-                <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700 p-4 rounded-xl text-center opacity-50">
-                  <span className="text-3xl block mb-2">🎯</span>
-                  <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                    {t('firstWorkout')}
-                  </span>
-                </div>
-                <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700 p-4 rounded-xl text-center opacity-50">
-                  <span className="text-3xl block mb-2">💪</span>
-                  <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                    5 {t('workouts')}
-                  </span>
-                </div>
-              </>
-            )}
-          </div>
+              <div className="card p-4 text-center opacity-50">
+                <span className="text-3xl block mb-2">💪</span>
+                <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                  5 {t('workouts')}
+                </span>
+              </div>
+            </>
+          )}
         </div>
 
         {/* Friends Activity */}
-        <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">
-          👥 {t('friendsActivity')}
-        </h3>
+        <h3 className="section-title">👥 {t('friendsActivity')}</h3>
         <div className="space-y-3 mb-8">
           {friends.length > 0 ? (
             friends.map(friend => (
-              <div key={friend.userId} className="bg-white dark:bg-gray-800 rounded-xl p-4 flex items-center gap-3">
+              <div key={friend.userId} className="card p-4 flex items-center gap-3 hover:shadow-md transition-all duration-300">
                 <div className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white overflow-hidden">
                   {friend.photoURL ? (
                     <img src={friend.photoURL} alt={friend.name} className="w-full h-full object-cover" />
@@ -461,7 +446,7 @@ export const Dashboard = () => {
                   <p className="text-sm font-medium text-gray-800 dark:text-gray-200">{friend.name}</p>
                   <p className="text-xs text-gray-500 dark:text-gray-400">
                     {friend.lastWorkout ? 
-                      `${t('workedOut')} ${friend.lastWorkout.type}` : 
+                      `${t('workedOut')} ${workoutTypeMap[friend.lastWorkout.type]}` : 
                       t('noActivity')}
                   </p>
                 </div>
@@ -471,11 +456,12 @@ export const Dashboard = () => {
               </div>
             ))
           ) : (
-            <div className="bg-white dark:bg-gray-800 rounded-xl p-8 text-center text-gray-500 dark:text-gray-400">
+            <div className="card p-8 text-center text-gray-500 dark:text-gray-400">
               <p>{t('noFriends')}</p>
-              <button
+              <button 
                 onClick={() => navigate('/search')}
-                className="text-blue-500 hover:text-blue-600 text-sm font-medium mt-2">
+                className="text-blue-500 hover:text-blue-600 text-sm font-medium mt-2 transition-colors"
+              >
                 {t('findFriends')} →
               </button>
             </div>
@@ -483,7 +469,7 @@ export const Dashboard = () => {
         </div>
 
         {/* Motivation Quote */}
-        <div className="mt-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl p-6 text-white transform hover:scale-[1.02] transition-all duration-300">
+        <div className="card-gradient bg-gradient-to-r from-blue-600 to-purple-600 p-6 text-white">
           <p className="text-lg italic">"{quote.text}"</p>
           <p className="text-sm mt-2 opacity-90">- {quote.author}</p>
           <div className="flex justify-end mt-2">
@@ -500,76 +486,47 @@ export const Dashboard = () => {
         </div>
 
         {/* Recent Activity */}
-        <div className="mt-8">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">{t('recentActivity')}</h3>
-          
-          {workouts.length === 0 ? (
-            <div className="bg-white rounded-xl shadow-sm p-8 text-center text-gray-500">
-              <div className="text-4xl mb-3">📝</div>
-              <p>{t('noWorkouts')}</p>
-              <p className="text-sm mt-2">{t('startFirst')}</p>
-            </div>
-          ) : (
-            <div className="space-y-3">
-              {workouts.slice(0, 3).map((workout) => {
-                let dateObj;
-                const dateValue = workout.date as any;
-                
-                if (dateValue?.seconds) {
-                  dateObj = new Date(dateValue.seconds * 1000);
-                } else {
-                  dateObj = new Date(dateValue);
-                }
-                
-                const isValidDate = !isNaN(dateObj.getTime());
-                
-                const workoutTypeMap: { [key: string]: string } = {
-                  running: t('running'),
-                  gym: t('gym'),
-                  yoga: t('yoga'),
-                  walking: t('walking'),
-                  other: t('other')
-                };
-                
-                return (
-                  <div key={workout.id} className="bg-white rounded-xl shadow-sm p-4">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <span className="text-2xl">
-                          {workout.type === 'running' && '🏃'}
-                          {workout.type === 'gym' && '💪'}
-                          {workout.type === 'yoga' && '🧘'}
-                          {workout.type === 'walking' && '🚶'}
-                          {workout.type === 'other' && '📝'}
-                        </span>
-                        <div>
-                          <p className="font-medium text-gray-800">
-                            {workoutTypeMap[workout.type] || t('other')}
-                          </p>
-                          <p className="text-xs text-gray-500">
-                            {isValidDate ? dateObj.toLocaleDateString(language === 'el' ? 'el-GR' : 'en-US') : t('unknownDate')}
-                          </p>
-                        </div>
-                      </div>
-                      <p className="text-sm font-medium text-gray-800">
-                        {Math.floor(workout.duration / 60)} {t('minutes')}
+        <h3 className="section-title mt-8">{t('recentActivity')}</h3>
+        
+        {workouts.length === 0 ? (
+          <div className="card p-8 text-center text-gray-500 dark:text-gray-400">
+            <div className="text-4xl mb-3">📝</div>
+            <p>{t('noWorkouts')}</p>
+            <p className="text-sm mt-2">{t('startFirst')}</p>
+          </div>
+        ) : (
+          <div className="space-y-3">
+            {workouts.slice(0, 3).map((workout) => (
+              <div key={workout.id} className="card p-4 hover:shadow-md transition-all duration-300">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <span className="text-2xl">{getWorkoutIcon(workout.type)}</span>
+                    <div>
+                      <p className="font-medium text-gray-800 dark:text-gray-200">
+                        {workoutTypeMap[workout.type]}
+                      </p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">
+                        {formatDate(workout.date)}
                       </p>
                     </div>
                   </div>
-                );
-              })}
-              
-              {workouts.length > 3 && (
-                <button
-                  onClick={() => navigate('/history')}
-                  className="w-full text-center text-sm text-blue-600 hover:text-blue-800 mt-2"
-                >
-                  {t('viewAll')} ({workouts.length})
-                </button>
-              )}
-            </div>
-          )}
-        </div>
+                  <p className="text-sm font-medium text-gray-800 dark:text-gray-200">
+                    {Math.floor(workout.duration / 60)} {t('minutes')}
+                  </p>
+                </div>
+              </div>
+            ))}
+            
+            {workouts.length > 3 && (
+              <button
+                onClick={() => navigate('/history')}
+                className="w-full text-center text-sm text-blue-500 hover:text-blue-600 mt-2 transition-colors"
+              >
+                {t('viewAll')} ({workouts.length})
+              </button>
+            )}
+          </div>
+        )}
       </main>
     </div>
   );

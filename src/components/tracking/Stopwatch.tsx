@@ -55,9 +55,9 @@ export const Stopwatch: React.FC<StopwatchProps> = ({ onTimeUpdate }) => {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm p-6">
+    <div className="card p-6">
       <div className="text-center">
-        <div className="text-5xl font-mono font-bold text-gray-800 mb-4">
+        <div className="text-5xl font-mono font-bold text-gray-800 dark:text-gray-200 mb-4">
           {formatTime(seconds)}
         </div>
         
@@ -65,10 +65,10 @@ export const Stopwatch: React.FC<StopwatchProps> = ({ onTimeUpdate }) => {
           <button
             type="button"
             onClick={toggleTimer}
-            className={`px-6 py-3 rounded-lg font-medium transition-colors ${
+            className={`px-6 py-3 rounded-xl font-medium transition-all touch-feedback ${
               isActive 
-                ? 'bg-yellow-500 hover:bg-yellow-600 text-white' 
-                : 'bg-green-500 hover:bg-green-600 text-white'
+                ? 'bg-yellow-500 hover:bg-yellow-600 text-white shadow-md hover:shadow-lg' 
+                : 'btn-primary'
             }`}
           >
             {isActive ? t('stop') : t('start')}
@@ -77,7 +77,7 @@ export const Stopwatch: React.FC<StopwatchProps> = ({ onTimeUpdate }) => {
           <button
             type="button"
             onClick={resetTimer}
-            className="px-6 py-3 bg-gray-500 hover:bg-gray-600 text-white rounded-lg font-medium transition-colors"
+            className="px-6 py-3 bg-gray-500 hover:bg-gray-600 text-white rounded-xl font-medium transition-all shadow-md hover:shadow-lg touch-feedback"
           >
             {t('reset')}
           </button>

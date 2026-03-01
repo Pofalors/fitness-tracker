@@ -39,6 +39,7 @@ export const translations = {
     following: 'Ακολουθείτε',
     addComment: 'Προσθήκη σχολίου...',
     post: 'Δημοσίευση',
+    you: 'Εσύ',
 
     // Login
     loginMessage: 'Παρακολούθησε τις προπονήσεις σου και πέτυχε τους στόχους σου!',
@@ -185,6 +186,7 @@ export const translations = {
     cancelConfirm: 'Θα χάσεις όλη την πρόοδο του challenge. Συνέχεια;',
     cancelConfirmed: 'Ακύρωσες το challenge',
     challengeCompleted: '🎉 Ολοκλήρωσες το challenge: ',
+    challengeCancelled: 'Challenge ακυρώθηκε',
     
     // Settings
     appearance: 'Εμφάνιση',
@@ -211,6 +213,7 @@ export const translations = {
     following: 'Following',
     addComment: 'Add comment...',
     post: 'Post',
+    you: 'You',
 
     // Login
     loginMessage: 'Track your workouts and achieve your goals!',
@@ -357,6 +360,7 @@ export const translations = {
     cancelConfirm: 'You will lose all challenge progress. Continue?',
     cancelConfirmed: 'You cancelled the challenge',
     challengeCompleted: '🎉 Challenge completed: ',
+    challengeCancelled: 'Challenge cancelled',
     
     // Settings
     appearance: 'Appearance',

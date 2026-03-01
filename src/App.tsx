@@ -16,6 +16,7 @@ import { initAnalytics, pageView } from './services/analytics';
 import { UserProfile } from './pages/UserProfile';
 import { UserSearch } from './components/social/UserSearch';
 import { Search } from './pages/Search';
+import { NotificationBell } from './components/notifications/NotificationBell';
 
 // Component για redirect μετά το login
 const AuthRedirect = ({ children }: { children: React.ReactNode }) => {
@@ -85,6 +86,9 @@ function App() {
         <Toaster position="top-center" />
         <BrowserRouter>
           <PageTracker />
+          <div className="fixed top-[5px] right-[100px] z-[1000]"> {/* ΠΡΟΣΘΕΣΕ ΑΥΤΟ */}
+            <NotificationBell />
+          </div>
           <Navigation />
           <InstallPrompt />
           <Routes>

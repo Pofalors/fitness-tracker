@@ -221,7 +221,7 @@ export const Profile = () => {
 
       <main className="max-w-3xl mx-auto px-4 py-8">
         {/* User Info Card */}
-        <div className="bg-white  rounded-xl shadow-sm p-6 mb-6">
+        <div className="card p-6 mb-6">
           <div className="flex items-start gap-4">
             <div className="relative">
               <img 
@@ -297,21 +297,21 @@ export const Profile = () => {
         </div>
 
         {/* Social Stats */}
-        <div className="bg-white  rounded-xl shadow-sm p-4 mb-6">
+        <div className="card p-4 mb-6">
           <div className="flex justify-around">
             <button 
               onClick={() => setShowFollowers(true)}
-              className="text-center hover:opacity-80 transition-opacity"
+              className="text-center hover:opacity-80 transition-opacity touch-feedback"
             >
-              <p className="text-2xl font-bold text-gray-800 ">{followers.length}</p>
-              <p className="text-sm text-gray-500 dark:text-gray-400">{t('followers')}</p>
+              <p className="stat-value">{followers.length}</p>
+              <p className="stat-label">{t('followers')}</p>
             </button>
             <button 
               onClick={() => setShowFollowing(true)}
-              className="text-center hover:opacity-80 transition-opacity"
+              className="text-center hover:opacity-80 transition-opacity touch-feedback"
             >
-              <p className="text-2xl font-bold text-gray-800 ">{following.length}</p>
-              <p className="text-sm text-gray-500 dark:text-gray-400">{t('following')}</p>
+              <p className="stat-value">{following.length}</p>
+              <p className="stat-label">{t('following')}</p>
             </button>
           </div>
         </div>
@@ -334,7 +334,7 @@ export const Profile = () => {
         )}
 
         {/* Stats Card */}
-        <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl shadow-sm p-6 mb-6 text-white">
+        <div className="card-gradient bg-gradient-to-r from-blue-600 to-purple-600 p-6 mb-6 text-white">
           <div className="grid grid-cols-3 gap-4 text-center">
             <div>
               <p className="text-3xl font-bold">{workouts.length}</p>
@@ -352,7 +352,7 @@ export const Profile = () => {
         </div>
 
         {/* Goals Section */}
-        <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
+        <div className="card p-6 mb-6">
           <div className="flex justify-between items-center mb-4">
             <h3 className="font-semibold text-gray-800">{t('weeklyGoals')}</h3>
             <button
@@ -433,23 +433,18 @@ export const Profile = () => {
         </div>
 
         {/* Badges Section */}
-        <div className="bg-white rounded-xl shadow-sm p-6">
-          <h3 className="font-semibold text-gray-800 mb-4">🏆 {t('badges')}</h3>
-          
+        <div className="card p-6">
+          <h3 className="section-title !mb-4">🏆 {t('badges')}</h3>
           {badges.length === 0 ? (
-            <p className="text-gray-500 text-center py-4">
+            <p className="text-gray-500 dark:text-gray-400 text-center py-4">
               {t('badgesMessage')}
             </p>
           ) : (
             <div className="grid grid-cols-2 gap-3">
               {badges.map((badge, index) => (
-                <div key={index} className="bg-gradient-to-r from-yellow-50 to-orange-50 p-3 rounded-lg text-center">
-                  <span className="text-2xl mb-1 block">
-                    {badge.split(' ')[1]}
-                  </span>
-                  <span className="text-sm font-medium text-gray-700">
-                    {badge}
-                  </span>
+                <div key={index} className="card p-3 text-center bg-gradient-to-br from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20">
+                  <span className="text-2xl mb-1 block">{badge.split(' ')[1]}</span>
+                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{badge}</span>
                 </div>
               ))}
             </div>
@@ -457,35 +452,30 @@ export const Profile = () => {
         </div>
 
         {/*Challenges */}
-        <div className="mt-6 bg-white  rounded-xl shadow-sm p-6">
+        <div className="card p-6 mt-6">
           <ChallengesList />
         </div>
 
         {/* Settings */}
-        <div className="mt-6 bg-white  rounded-xl shadow-sm p-6">
-          <h3 className="font-semibold text-gray-800  mb-4">
-            ⚙️ {t('settings')}
-          </h3>
-          
+        <div className="card p-6 mt-6">
+          <h3 className="section-title !mb-4">⚙️ {t('settings')}</h3>
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <span className="text-gray-800 ">{t('theme')}</span>
+              <span className="text-gray-700 dark:text-gray-300">{t('theme')}</span>
               <ThemeToggle />
             </div>
-            
             <div className="flex items-center justify-between">
-              <span className="text-gray-800 ">{t('language')}</span>
+              <span className="text-gray-700 dark:text-gray-300">{t('language')}</span>
               <LanguageToggle />
             </div>
-            
-            <div className="pt-4 border-t border-gray-200 ">
+            <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
               <button
                 onClick={() => {
                   if (window.confirm(t('confirmLogout'))) {
                     useAuthStore.getState().logout();
                   }
                 }}
-                className="text-red-500 hover:text-red-700 text-sm font-medium"
+                className="text-red-500 hover:text-red-700 text-sm font-medium transition-colors"
               >
                 {t('logout')}
               </button>

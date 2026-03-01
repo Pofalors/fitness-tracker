@@ -28,7 +28,6 @@ export const UserSearch = () => {
     
     setLoading(true);
     try {
-      // Αναζήτηση με email (πιο ακριβές)
       const emailQuery = query(
         collection(db, 'users'),
         where('email', '>=', searchTerm),
@@ -76,10 +75,8 @@ export const UserSearch = () => {
   };
 
   return (
-    <div className="bg-white  rounded-xl shadow-sm p-6">
-      <h3 className="text-lg font-semibold text-gray-800  mb-4">
-        🔍 {t('findFriends')}
-      </h3>
+    <div className="card p-6">
+      <h3 className="section-title !mb-4">🔍 {t('findFriends')}</h3>
       
       <div className="flex gap-2 mb-4">
         <input
@@ -88,21 +85,21 @@ export const UserSearch = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
           onKeyPress={(e) => e.key === 'Enter' && searchUsers()}
           placeholder={t('searchPlaceholder')}
-          className="flex-1 p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white  text-gray-800 "
+          className="flex-1 p-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
         />
         <button
           onClick={searchUsers}
           disabled={loading}
-          className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors disabled:bg-blue-300"
+          className="btn-primary !px-6 !py-3"
         >
           {loading ? '...' : t('search')}
         </button>
       </div>
       
       {results.length > 0 && (
-        <div className="space-y-3">
+        <div className="space-y-3 animate-fade-in">
           {results.map(user => (
-            <div key={user.uid} className="flex items-center justify-between p-3 bg-gray-50  rounded-lg">
+            <div key={user.uid} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700/50 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
               <div 
                 onClick={() => navigate(`/profile/${user.uid}`)}
                 className="flex items-center gap-3 cursor-pointer flex-1"
@@ -115,24 +112,23 @@ export const UserSearch = () => {
                   )}
                 </div>
                 <div>
-                  <p className="font-medium text-gray-800 ">{user.displayName}</p>
+                  <p className="font-medium text-gray-800 dark:text-gray-200">{user.displayName}</p>
                   <p className="text-xs text-gray-500 dark:text-gray-400">{user.email}</p>
                 </div>
               </div>
               
               <button
-                onClick={() => {
+                onClick={async () => {
                   if (isFollowing(user.uid)) {
-                    // Unfollow logic
-                    useSocialStore.getState().unfollowUser(user.uid);
+                    await useSocialStore.getState().unfollowUser(user.uid);
                   } else {
-                    followUser(user.uid);
+                    await followUser(user.uid);
                   }
                 }}
-                className={`px-3 py-1 rounded-lg text-sm font-medium transition-colors ${
+                className={`px-3 py-1 rounded-lg text-sm font-medium transition-all touch-feedback ${
                   isFollowing(user.uid)
-                    ? 'bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-500'
-                    : 'bg-blue-500 text-white hover:bg-blue-600'
+                    ? 'btn-secondary !px-3 !py-1'
+                    : 'btn-primary !px-3 !py-1'
                 }`}
               >
                 {isFollowing(user.uid) ? t('unfollow') : t('follow')}
