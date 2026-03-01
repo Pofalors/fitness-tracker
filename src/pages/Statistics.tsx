@@ -9,6 +9,7 @@ import { format, eachDayOfInterval, subDays } from 'date-fns';
 import { el, enUS } from 'date-fns/locale';
 import { useTranslation } from '../store/languageStore';
 import { useTheme } from '../store/themeStore';
+import { NotificationBell } from '../components/notifications/NotificationBell';
 
 export const Statistics = () => {
   const navigate = useNavigate();
@@ -89,16 +90,20 @@ export const Statistics = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow-sm">
+      <header className="sticky top-0 z-50 glass border-b border-gray-200/50 dark:border-gray-700/50">
         <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex items-center gap-4">
-            <button
-              onClick={() => navigate('/')}
-              className="text-gray-600  hover:text-gray-900 "
-            >
-              ← {t('back')}
-            </button>
-            <h1 className="text-xl font-bold text-gray-800 ">{t('statistics')}</h1>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <button
+                onClick={() => navigate(-1)}
+                className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 transition-colors touch-feedback"
+              >
+                ← {t('back')}
+              </button>
+              <h1 className="text-xl font-bold text-gray-800 dark:text-gray-200">{t('statistics')}</h1>
+            </div>
+            
+            <NotificationBell />
           </div>
         </div>
       </header>

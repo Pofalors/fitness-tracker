@@ -252,6 +252,7 @@ export const Dashboard = () => {
             </div>
             
             <div className="flex items-center gap-4">
+              <NotificationBell />
               {user && (
                 <>
                   <div className="flex items-center gap-3 glass rounded-full pl-2 pr-4 py-1">

@@ -86,9 +86,6 @@ function App() {
         <Toaster position="top-center" />
         <BrowserRouter>
           <PageTracker />
-          <div className="fixed top-[5px] right-[100px] z-[1000]"> {/* ΠΡΟΣΘΕΣΕ ΑΥΤΟ */}
-            <NotificationBell />
-          </div>
           <Navigation />
           <InstallPrompt />
           <Routes>
