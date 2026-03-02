@@ -1,52 +1,100 @@
-# 💪 Fitness Tracker
+# 💪 Fitness Tracker v1.0 (alpha)
 
-A modern full-stack fitness tracking application built with React, TypeScript, and Firebase.
-
-## ✨ Features
-
-- 🔐 **Google Authentication** - Secure login with Firebase Auth
-- 🏃 **Workout Tracking** - Log running, gym, yoga, and more
-- ⏱️ **Stopwatch Timer** - Track workout duration in real-time
-- 📊 **Statistics & Charts** - Visual progress with Recharts
-- 📅 **Activity History** - View and filter past workouts
-- 🎯 **Goal Setting** - Set weekly workout targets
-- 🏆 **Achievement Badges** - Earn badges for milestones
-- 📱 **PWA Ready** - Install on mobile devices
-- 🌙 **Responsive Design** - Works on all devices
-
-## 🛠️ Technologies
-
-- **Frontend:** React 19, TypeScript, Vite
-- **Styling:** Tailwind CSS
-- **State Management:** Zustand
-- **Backend:** Firebase (Auth, Firestore)
-- **Charts:** Recharts
-- **Routing:** React Router DOM
-- **Notifications:** React Hot Toast
-
-## 🚀 Live Demo
-
-[View Live Demo](https://fitness-tracker-sepia-one.vercel.app)
+A modern full-stack fitness tracking application built with React, TypeScript, and Firebase. Track your workouts, monitor progress, connect with friends, and achieve your fitness goals!
 
 ## 📸 Screenshots
 
 ### Dashboard
 ![Dashboard](screenshots/dashboard.png)
-*The central dashboard with statistics and quick actions*
+*Central dashboard with statistics, challenges, and activity feed*
 
-### Recording form
+### Track Workout
 ![Track Workout](screenshots/track.png)
-*Recording form with stopwatch and training type selection*
+*Workout logging with stopwatch and type selection*
 
 ### Statistics
 ![Statistics](screenshots/statistics.png)
-*Progress charts and statistical analysis*
+*Detailed statistics with charts and personal records*
 
-### Profil & Badges
+### Profile & Achievements
 ![Profile](screenshots/profile.png)
-*User profile with goals, streaks, and achievements*
+*User profile with badges, goals, and challenges*
+
+## ✨ Features
+
+### 🏋️‍♂️ Core Features (v1.0)
+- 🔐 **Google Authentication** - Secure login with Google account
+- 🏃 **Workout Tracking** - Log running, gym, yoga, walking sessions
+- ⏱️ **Stopwatch Timer** - Track workout duration with haptic feedback
+- 📊 **Statistics & Charts** - Visual progress tracking with Recharts
+- 📅 **Activity History** - Workout history with filters
+- 🎯 **Goal Setting** - Weekly workout targets
+- 🏆 **Achievement Badges** - Unlock badges for milestones
+
+### 👥 Social Features
+- 🤝 **Follow System** - Follow other users
+- ❤️ **Likes & Comments** - Interact with friends' workouts
+- 🔔 **Notifications** - Get notified for follows, likes, comments
+- 👀 **Friend Activity** - See what your friends are doing
+- 🔍 **User Search** - Discover and connect with new people
+
+### 🎯 Challenges & Gamification
+- 🧘 **30 Days of Yoga** - Daily yoga for 30 days
+- 🏃 **100km Running** - Complete 100 kilometers of running
+- 💪 **7-Day Gym Streak** - Workout for 7 consecutive days
+- 📊 **Progress Tracking** - Visual progress representation
+- ✨ **Achievement System** - Unlock badges and rewards
+
+### 🎨 UI/UX
+- 🌙 **Dark/Light Mode** - Theme switching with system preference
+- 🇬🇷🇬🇧 **Multilingual** - Full Greek and English support
+- 📱 **Mobile First** - Fully responsive design
+- ✨ **Smooth Animations** - Fluid transitions and micro-interactions
+- 🎨 **Modern Design** - Glassmorphism, gradient cards, activity rings
+
+### 📱 PWA Features
+- 💾 **Installable** - Add to home screen on mobile devices
+- 🚀 **Fast Loading** - Optimized for quick loading
+- 🔄 **Auto Updates** - Automatic updates when online
+
+## 🛠️ Technologies
+
+### Frontend
+- **React 19** - UI library
+- **TypeScript** - Type safety
+- **Vite** - Build tool
+- **Tailwind CSS** - Styling
+- **Zustand** - State management
+- **Recharts** - Charts & graphs
+- **date-fns** - Date manipulation
+- **React Router DOM** - Routing
+- **React Hot Toast** - Notifications
+
+### Backend
+- **Firebase Authentication** - User management
+- **Firestore** - NoSQL database
+- **Firebase Storage** - File storage (avatars)
+
+### Development Status
+- **Current Version:** v1.0.0-alpha
+- **Status:** 🚧 Under active development
+- **Next Features:**
+  - Workout plans & routines
+  - Advanced analytics
+  - Social leaderboards
+  - Custom challenges
+  - Export data (PDF/CSV)
+
+## 🚀 Live Demo
+
+[View Live Demo](https://fitness-tracker-sepia-one.vercel.app)
 
 ## 🏗️ Installation
+
+### Prerequisites
+- Node.js 18+
+- npm or yarn
+- Firebase account
 
 1. Clone the repository
 ```bash
@@ -59,7 +107,15 @@ cd fitness-tracker
 npm install
 ```
 
-3. Create `.env` file with Firebase config
+3. Firebase Configuration
+
+- Create a Firebase project
+- Enable Authentication (Google provider)
+- Create Firestore Database
+- Set up Storage bucket (for avatars)
+- Copy your config keys
+
+4. Create `.env` file with Firebase config
 ```env
 VITE_FIREBASE_API_KEY=your_api_key
 VITE_FIREBASE_AUTH_DOMAIN=your_auth_domain
@@ -69,22 +125,53 @@ VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
 VITE_FIREBASE_APP_ID=your_app_id
 ```
 
-4. Run development server
+5. Run development server
 ```bash
 npm run dev
+```
+
+## 📁 Project Structure
+```
+fitness-tracker/
+├── src/
+│   ├── components/         # Reusable components
+│   │   ├── auth/           # Authentication components
+│   │   ├── challenges/      # Challenges UI
+│   │   ├── common/         # Shared components
+│   │   ├── layout/         # Layout components
+│   │   ├── notifications/   # Notification system
+│   │   ├── settings/       # Theme/Language toggles
+│   │   ├── social/         # Social features
+│   │   └── tracking/       # Workout tracking
+│   ├── pages/              # Page components
+│   ├── store/              # Zustand stores
+│   ├── types/              # TypeScript types
+│   ├── services/           # Firebase services
+│   ├── config/             # Configuration
+│   └── utils/              # Utilities
+├── public/                 # Static assets
+└── screenshots/            # Documentation images
 ```
 
 ## 📱 PWA Installation
 
 The app can be installed on mobile devices:
-- **iOS:** Share → Add to Home Screen
-- **Android:** Menu → Install App
-- **Desktop:** Click install icon in address bar
+- **iOS:** Open the app in Safari → Tap the Share button (📤) → Select "Add to Home Screen" → Tap "Add"
+- **Android:** Open the app in Chrome → Tap the menu (⋮) → Select "Install App" → Tap "Install"
+- **Desktop:** Open the app in Chrome/Edge → Click the install icon in the address bar → Select "Install"
 
 ## 🤝 Contributing
 
 Contributions are welcome! Feel free to open issues or submit PRs.
 
+1. Fork the repository
+2. Create your feature branch (git checkout -b feature/amazing-feature)
+3. Commit your changes (git commit -m 'Add some amazing feature')
+4. Push to the branch (git push origin feature/amazing-feature)
+5. Open a Pull Request
+
 ## 📄 License
 
-MIT
+MIT License - see the LICENSE file for details
+
+# ⭐ Star this project on GitHub if you like it! ⭐
